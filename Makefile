@@ -1,5 +1,5 @@
 HTML_FILES := $(patsubst %.Rmd, %.html ,$(wildcard *.Rmd)) \
-							$(patsubst %.md, %.html ,$(wildcard *.md))
+			  $(patsubst %.md, %.html ,$(wildcard *.md))
 
 all: clean html
 
@@ -13,4 +13,5 @@ html: $(HTML_FILES)
 
 .PHONY: clean
 
-clean: $(RM) $(HTML_FILES)
+clean:
+	$(RM) $(HTML_FILES)
