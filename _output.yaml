@@ -2,7 +2,7 @@ html_document:
     self_contained: false
     theme: united
     highlight: haddock
-    mathjax: null
+    mathjax: "http://example.com/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
     toc_depth: 2
     lib_dir: libs
     includes:
