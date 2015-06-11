@@ -1,0 +1,29 @@
+---
+title: "Chapter 2: Exercises"
+---
+
+#### 2.5
+
+> Run [SimpleGraph.R](https://github.com/durtal/dba-ed1/blob/master/code-data/SimpleGraph.R)
+
+```{r}
+# specify vector of x values
+x <- seq(from = -2, to = 2, by = 0.1)
+# specify corresponding y values
+y <- x^2
+# plot x,y points
+plot(x, y, type = "l")
+```
+
+#### 2.6
+
+> Adapt the [SimpleGraph.R](https://github.com/durtal/dba-ed1/blob/master/code-data/SimpleGraph.R) code so it plots a cubic function (y = x^3) over the interval [-3, 3].
+
+```{r}
+# specify vector of x values
+x <- seq(from = -3, to = 3, by = 0.1)
+# specify corresponding y values
+y <- x^3
+# plot x,y points
+plot(x, y, type = "l")
+```
