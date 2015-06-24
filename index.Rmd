@@ -3,3 +3,5 @@ title: 'Intro'
 ---
 
 Walking my way through [Doing Bayesian Data Analysis](http://www.amazon.co.uk/Doing-Bayesian-Data-Analysis-Tutorial/dp/0123814855/ref=sr_1_2?s=books&ie=UTF8&qid=1432494439&sr=1-2&keywords=doing+bayesian+data+analysis) by John Kruschke (edition 1).
+
+<sub>And learning some Mathjax along the way</sub>
