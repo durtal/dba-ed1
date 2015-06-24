@@ -57,7 +57,7 @@ x <- seq(from = xlow, to = xhigh, by = dx)
 # calculate y values. using density function above
 y <- 6 * x * (1 - x)
 # plot the function
-plot(x, y, type = "h", lwd = 1, xlab = "x", ylab = "p(x)", main = "6x(1-x(")
+plot(x, y, type = "h", lwd = 1, xlab = "x", ylab = "p(x)", main = "6x(1-x)")
 lines(x, y)
 ```
 
