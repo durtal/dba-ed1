@@ -2,7 +2,9 @@
 title: "Chapter 2: Exercises"
 ---
 
-#### 2.5
+## Introduction: The Models We Believe In
+
+### 2.5
 
 > Run [SimpleGraph.R](https://github.com/durtal/dba-ed1/blob/master/code-data/SimpleGraph.R)
 
@@ -15,7 +17,7 @@ y <- x^2
 plot(x, y, type = "l")
 ```
 
-#### 2.6
+### 2.6
 
 > Adapt the [SimpleGraph.R](https://github.com/durtal/dba-ed1/blob/master/code-data/SimpleGraph.R) code so it plots a cubic function (y = x^3) over the interval [-3, 3].
 

@@ -136,8 +136,10 @@ img {
 </div>
 
 
-<div id="section" class="section level4">
-<h4>3.1</h4>
+<div id="what-is-this-stuff-called-probability" class="section level2">
+<h2>What is this stuff called probability?</h2>
+<div id="section" class="section level3">
+<h3>3.1</h3>
 <blockquote>
 <p>Modify the coin-flipping program <a href="https://github.com/durtal/dba-ed1/blob/master/code-data/RunningProportion.R">RunningProportion.R</a> to simulate a biased coin that has <span class="math">\(P(H)=0.8\)</span>, change the height of the reference line in the plot to match <span class="math">\(P(H)\)</span></p>
 </blockquote>
@@ -162,8 +164,8 @@ displaystring &lt;-<span class="st"> </span><span class="kw">paste</span>(<span 
 <span class="kw">text</span>(<span class="dv">2</span>, <span class="fl">0.3</span>, <span class="kw">paste</span>(<span class="st">&quot;End Proportion =&quot;</span>, runprop[N]), <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">cex =</span> <span class="fl">0.9</span>)</code></pre>
 <p><img src="chapter3-exercises_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="672" /></p>
 </div>
-<div id="section-1" class="section level4">
-<h4>3.2</h4>
+<div id="section-1" class="section level3">
+<h3>3.2</h3>
 <p>Determine the exact probability of drawing a 10 from a shuffled pinochle deck. (A pinchole deck has 48 cards, there are six values: 9, 10, jack, queen, king and ace. There are two copies of each value in each of the standard four suits: hearts, diamonds, clubs and spades.)</p>
 <blockquote>
 <p>What is the probability of getting a 10?</p>
@@ -174,8 +176,8 @@ displaystring &lt;-<span class="st"> </span><span class="kw">paste</span>(<span 
 </blockquote>
 <p>There are eight 10’s and 8 jacks, so <span class="math">\(P(10 or jack) = 16/48\)</span> = 0.3333333</p>
 </div>
-<div id="section-2" class="section level4">
-<h4>3.3</h4>
+<div id="section-2" class="section level3">
+<h3>3.3</h3>
 <p>Consider a spinner with a <span class="math">\([0,1]\)</span> scale on its circumference. Suppose that the spinner is slanted or magnetised or bent in some way such that it is biased, and its probability density function is <span class="math">\(p(x) = 6x(1-x)\)</span> over the interval <span class="math">\(x\)</span> in <span class="math">\([0,1]\)</span>.</p>
 <blockquote>
 <p>Adapt the code from Section Subsection 3.5.2 (<a href="https://github.com/durtal/dba-ed1/blob/master/code-data/IntegralOfDensity.R">IntegralOfDensity.R</a>) to plot this density function and approximate its integral.</p>
@@ -204,6 +206,31 @@ y &lt;-<span class="st"> </span><span class="dv">6</span> *<span class="st"> </s
 <p>From inspecting the graph, what is the maximal value of <span class="math">\(p(x)\)</span>?</p>
 </blockquote>
 <p>0.5</p>
+</div>
+<div id="section-3" class="section level3">
+<h3>3.4</h3>
+<blockquote>
+<p>Adapt the code from section 3.5.2 (<a href="https://github.com/durtal/dba-ed1/blob/master/code-data/IntegralOfDensity.R">IntegralOfDensity.R</a>) to determine (approximately) the probability mass under the normal curve from <span class="math">\(x = \mu - \sigma\)</span> to <span class="math">\(x = \mu + \sigma\)</span>.</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set parameters</span>
+meanval &lt;-<span class="st"> </span><span class="dv">0</span>
+std_dev &lt;-<span class="st"> </span><span class="fl">0.2</span>
+xlow &lt;-<span class="st"> </span>meanval -<span class="st"> </span>std_dev
+xhigh &lt;-<span class="st"> </span>meanval +<span class="st"> </span>std_dev
+dx &lt;-<span class="st"> </span><span class="fl">0.002</span>
+<span class="co"># calculate points</span>
+x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> xlow, <span class="dt">to =</span> xhigh, <span class="dt">by =</span> dx)
+y &lt;-<span class="st"> </span>(<span class="dv">1</span>/(std_dev *<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">2</span> *<span class="st"> </span>pi))) *<span class="st"> </span><span class="kw">exp</span>(-.<span class="dv">5</span> *<span class="st"> </span>((x -<span class="st"> </span>meanval)/std_dev)^<span class="dv">2</span>)
+<span class="co"># plot and add lines</span>
+<span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;p(x)&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Normal Probability Density&quot;</span>)
+<span class="kw">lines</span>(x, y)</code></pre>
+<p><img src="chapter3-exercises_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="672" /></p>
+<p>The area under the curve from <span class="math">\(\mu - \sigma\)</span> to <span class="math">\(\mu + \sigma\)</span> is <strong>0.6851052</strong></p>
+<blockquote>
+<p>Now use the normal curve to describe the following belief. Suppose that you believe women’s heights follow a bell shaped distribution, centered at 162cm with about two thirds of all women having heights between 147cm and 177cm</p>
+</blockquote>
+<p>The previous answer revealed that approximately two thirds (0.6851052) of a normal distribution falls between <span class="math">\(\mu - \sigma\)</span> and <span class="math">\(\mu + \sigma\)</span>, so the standard deviation of women’s heights is 15cm.</p>
+</div>
 </div>
 
 

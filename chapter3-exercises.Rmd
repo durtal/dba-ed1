@@ -2,7 +2,9 @@
 title: "Chapter 3: Exercises"
 ---
 
-#### 3.1
+## What is this stuff called probability?
+
+### 3.1
 
 > Modify the coin-flipping program [RunningProportion.R](https://github.com/durtal/dba-ed1/blob/master/code-data/RunningProportion.R) to simulate a biased coin that has $P(H)=0.8$, change the height of the reference line in the plot to match $P(H)$
 
@@ -29,7 +31,7 @@ text(2, 0.3, paste("End Proportion =", runprop[N]), adj = c(0, 1), cex = 0.9)
 ```
 
 
-#### 3.2
+### 3.2
 
 Determine the exact probability of drawing a 10 from a shuffled pinochle deck.  (A pinchole deck has 48 cards, there are six values: 9, 10, jack, queen, king and ace.  There are two copies of each value in each of the standard four suits: hearts, diamonds, clubs and spades.)
 
@@ -41,7 +43,7 @@ There are eight 10's in the 48 cards, so $P(10) = 8/48$ = `r 8/48`
 
 There are eight 10's and 8 jacks, so $P(10 or jack) = 16/48$ = `r 16/48`
 
-#### 3.3
+### 3.3
 
 Consider a spinner with a $[0,1]$ scale on its circumference.  Suppose that the spinner is slanted or magnetised or bent in some way such that it is biased, and its probability density function is $p(x) = 6x(1-x)$ over the interval $x$ in $[0,1]$.
 
@@ -72,3 +74,28 @@ $$\int_0^1 dx(6x(1-x)) = 6\int_0^1 dx(x - x^2) = 6\left[\frac 12 x^2 - \frac 13 
 > From inspecting the graph, what is the maximal value of $p(x)$?
 
 0.5
+
+### 3.4
+
+> Adapt the code from section 3.5.2 ([IntegralOfDensity.R](https://github.com/durtal/dba-ed1/blob/master/code-data/IntegralOfDensity.R)) to determine (approximately) the probability mass under the normal curve from $x = \mu - \sigma$ to $x = \mu + \sigma$.
+
+```{r}
+# set parameters
+meanval <- 0
+std_dev <- 0.2
+xlow <- meanval - std_dev
+xhigh <- meanval + std_dev
+dx <- 0.002
+# calculate points
+x <- seq(from = xlow, to = xhigh, by = dx)
+y <- (1/(std_dev * sqrt(2 * pi))) * exp(-.5 * ((x - meanval)/std_dev)^2)
+# plot and add lines
+plot(x, y, type = "h", xlab = "x", ylab = "p(x)", main = "Normal Probability Density")
+lines(x, y)
+```
+
+The area under the curve from $\mu - \sigma$ to $\mu + \sigma$ is **`r sum(dx * y)`**
+
+> Now use the normal curve to describe the following belief.  Suppose that you believe women's heights follow a bell shaped distribution, centered at 162cm with about two thirds of all women having heights between 147cm and 177cm
+
+The previous answer revealed that approximately two thirds (`r sum(dx*y)`) of a normal distribution falls between $\mu - \sigma$ and $\mu + \sigma$, so the standard deviation of women's heights is `r 162 - 147`cm.
