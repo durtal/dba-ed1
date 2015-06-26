@@ -50,6 +50,27 @@
 </style>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
 
 
 </head>
@@ -103,6 +124,9 @@ img {
                         <li>
                             <a href="chapter3-exercises.html">Chapter 3</a>
                         </li>
+                        <li>
+                            <a href="chapter4-exercises.html">Chapter 4</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -117,6 +141,117 @@ img {
 
 <div id="bayes-rule" class="section level2">
 <h2>Bayes Rule</h2>
+<div id="section" class="section level3">
+<h3>4.1</h3>
+<p>Suppose that in the general population, the probability of having a particular rare disease is 1 in 1000. We denote the true presence or absence of the disease as the value of a parameter, <span class="math">\(\theta\)</span>, that can have the value <strong><span class="math">\(\theta\)</span> = 1</strong> if disease is present, or the value <strong><span class="math">\(\theta\)</span> = 0</strong> if the disease is absent. The base rate of the disease is therefore denoted as <span class="math">\(p(\theta = 1) = 0.001\)</span>. This is our prior belief that a person, selected at random, has the disease.</p>
+<p>Suppose there is a test for the disease that has 99% hit rate, that means if a person has the disease, then the test result if positive 99% of the time. We denote a positive test as <strong>D = +</strong> and a negative test as <strong>D = -</strong>. The observed test result is a bit of data that we will use to modify our belief about the value of the underlying disease parameter. The hit rate is expressed as <span class="math">\(p(D = + | \theta = 1) = 0.99\)</span>. The test also has a false alarm rate of 5%, this means that 5% of the time when the disease is not present, the test falsely indicates that the disease is present. We denote the false alarm rate as <span class="math">\(p(D = + | \theta = 0) = 0.05\)</span>.</p>
+<p>Suppose we sample a person at random from the population, administer the test, and it comes up positive.</p>
+<blockquote>
+<p>What is the posterior probability that the person has the disease?</p>
+</blockquote>
+<p><span class="math">\[\begin{align}
+p(\theta = 1 | D = +) 
+&amp; = \frac{p(D = + | \theta = 1)p(\theta = 1)}{p(D = +)} \\
+&amp; = \frac{p(D = + | \theta = 1)p(\theta = 1)}{\left[p(D = + | \theta = 1)p(\theta = 1) + p(D = + | \theta = 0)p(\theta = 0)\right]} \\
+&amp; = \frac{0.99 * 0.001}{(0.99 * 0.001) + (0.05 * 0.999)} \\
+&amp; = 0.0194
+\end{align}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">(posterior4<span class="fl">.1</span> &lt;-<span class="st"> </span>(<span class="fl">0.99</span> *<span class="st"> </span><span class="fl">0.001</span>) /<span class="st"> </span>((<span class="fl">0.99</span> *<span class="st"> </span><span class="fl">0.001</span>) +<span class="st"> </span>(<span class="fl">0.05</span> *<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.001</span>))))</code></pre>
+<pre><code>## [1] 0.01943463</code></pre>
+</div>
+<div id="section-1" class="section level3">
+<h3>4.2</h3>
+<p>Continuing from the previous exercise, suppose that the same randomly selected person is retested after the first test comes back positive, and on the retest the result is negative. Now</p>
+<blockquote>
+<p>what is the probability that the person has the disease</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">(newposterior4<span class="fl">.2</span> &lt;-<span class="st"> </span>((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.99</span>) *<span class="st"> </span>posterior4<span class="fl">.1</span>) /<span class="st"> </span>(((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.99</span>) *<span class="st"> </span>posterior4<span class="fl">.1</span>) +<span class="st"> </span>((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.05</span>) *<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span>posterior4<span class="fl">.1</span>))))</code></pre>
+<pre><code>## [1] 0.0002085862</code></pre>
+</div>
+<div id="section-2" class="section level3">
+<h3>4.4</h3>
+<p>Consider again the disease and diagnostic test of the previous two exercises. Suppose that a person selected at random from the population gets the test and it comes back negative.</p>
+<blockquote>
+<p>Compute the probability that the person has the disease</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">(posterior4<span class="fl">.4</span> &lt;-<span class="st"> </span>((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.99</span>) *<span class="st"> </span><span class="fl">0.001</span>) /<span class="st"> </span>(((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.99</span>) *<span class="st"> </span><span class="fl">0.001</span>) +<span class="st"> </span>((<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.05</span>) *<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="fl">0.001</span>))))</code></pre>
+<pre><code>## [1] 0.00001053674</code></pre>
+<p>The person is then retested, and on the second test the result is positive…</p>
+<blockquote>
+<p>Compute the probability that the person has the disease. How does this compare with the result from 4.2</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">(newposterior4<span class="fl">.4</span> &lt;-<span class="st"> </span>((<span class="fl">0.99</span> *<span class="st"> </span>posterior4<span class="fl">.4</span>) /<span class="st"> </span>((<span class="fl">0.99</span> *<span class="st"> </span>posterior4<span class="fl">.4</span>) +<span class="st"> </span>(<span class="fl">0.05</span> *<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span>posterior4<span class="fl">.4</span>)))))</code></pre>
+<pre><code>## [1] 0.0002085862</code></pre>
+<p>The result matches, <strong>0.0002086 = 0.0002086</strong></p>
+</div>
+<div id="section-3" class="section level3">
+<h3>4.5</h3>
+<p>Cognitive neuroscientists investigate which areas of the brain are active during particular mental tasks. In many situations, researchers observe that a certain region of the brain is active and infer that a particular cognitive function is therefore being carried out. Poldrack (2006) cautioned that such inferences are not necessarily firm and need to be made with Bayes’ rule in mind. Poldrack (2006) reported the following frequency table of previous studies that involved any language related task (specifically phonological and semantic processing) and whether or not a particular region of interest (ROI) in the brain was activated:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Active/Study</th>
+<th align="left">Language Study</th>
+<th align="left">Not Language Study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Activated</td>
+<td align="left">166</td>
+<td align="left">199</td>
+</tr>
+<tr class="even">
+<td align="left">Not Activated</td>
+<td align="left">703</td>
+<td align="left">2154</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Suppose that a new study is conducted and finds that the ROI is activated. If the prior probability that the task involves language processing is 0.5, what is the posterior probability, given the ROI is activated?</p>
+</blockquote>
+<p><span class="math">\[\begin{align}
+p(Lang. | ROI active)
+&amp; = \frac{p(ROI active | Lang)p(Lang)}{(p(ROI active | Lang)p(Lang)) + (p(ROI active | Not Lang)p(Not Lang))} \\
+&amp; = \frac{\frac{166}{166 + 703}*0.5}{\left(\frac{166}{(166 + 703)}*0.5\right) + \left(\frac{199}{199 + 2154}*0.5\right)} \\
+&amp; = 0.693
+\end{align}\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">(posterior4<span class="fl">.5</span> &lt;-<span class="st"> </span>((<span class="dv">166</span> /<span class="st"> </span>(<span class="dv">166</span> +<span class="st"> </span><span class="dv">703</span>)) *<span class="st"> </span><span class="fl">0.5</span>) /<span class="st"> </span>(((<span class="dv">166</span> /<span class="st"> </span>(<span class="dv">166</span> +<span class="st"> </span><span class="dv">703</span>)) *<span class="st"> </span><span class="fl">0.5</span>) +<span class="st"> </span>((<span class="dv">199</span> /<span class="st"> </span>(<span class="dv">199</span> +<span class="st"> </span><span class="dv">2154</span>)) *<span class="st"> </span><span class="fl">0.5</span>)))</code></pre>
+<pre><code>## [1] 0.6931285</code></pre>
+</div>
+<div id="section-4" class="section level3">
+<h3>4.6</h3>
+<p>Derive the posterior probability in Figure 4.1 (shown below) by hand. The prior has <span class="math">\(p(\theta = 0.25) = 0.25\)</span>, <span class="math">\(p(\theta = 0.5) = 0.5\)</span> and <span class="math">\(p(\theta = 0.75) = 0.25\)</span>. The data consist of a specific sequence of flips with three heads and nine tails.</p>
+<div class="row">
+<div class="col-sm-4">
+<p><img src="chapter4-exercises_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" /></p>
+</div>
+<div class="col-sm-4">
+<p><img src="chapter4-exercises_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="672" /></p>
+</div>
+<div class="col-sm-4">
+<p><img src="chapter4-exercises_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" width="672" /></p>
+</div>
+</div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># theta and pTheta</span>
+theta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)
+pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>)
+
+<span class="co"># coin flip sequence</span>
+flips &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">9</span>))
+nHeads &lt;-<span class="st"> </span><span class="kw">sum</span>(flips)
+nTails &lt;-<span class="st"> </span><span class="kw">length</span>(flips) -<span class="st"> </span>nHeads 
+
+<span class="co"># data given theta (the likelihood)</span>
+pDGivenTheta &lt;-<span class="st"> </span>theta^nHeads *<span class="st"> </span>(<span class="dv">1</span>-theta)^nTails
+
+<span class="co"># the posterior</span>
+pData =<span class="st"> </span><span class="kw">sum</span>( pDGivenTheta *<span class="st"> </span>pTheta )
+(<span class="dt">pThetaGivenData =</span> pDGivenTheta *<span class="st"> </span>pTheta /<span class="st"> </span>pData)</code></pre>
+<pre><code>## [1] 0.7054333023 0.2935990252 0.0009676726</code></pre>
+<p>Do the posterior probabilities, 0.7054333, 0.293599, 0.0009677, sum to 1.0, <strong>TRUE</strong></p>
+</div>
 </div>
 
 
