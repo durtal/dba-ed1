@@ -18,7 +18,7 @@ BernBeta = function( priorShape , dataVec , credMass=0.95 , saveGr=FALSE ) {
 # You will need to "source" this function before using it, so R knows
 # that the function exists and how it is defined.
 
-  
+
 # Check for errors in input arguments:
 if ( length(priorShape) != 2 ) {
    stop("priorShape must have two components.") }
@@ -65,7 +65,7 @@ plot( Theta , pTheta , type="l" , lwd=3 ,
       xlim=c(0,1) , ylim=c(0,maxY) , cex.axis=1.2 ,
       xlab=bquote(theta) , ylab=bquote(p(theta)) , cex.lab=1.5 ,
       main="Prior" , cex.main=1.5 , col="skyblue" )
-if ( a > b ) { textx = 0 ; textadj = c(0,1) } 
+if ( a > b ) { textx = 0 ; textadj = c(0,1) }
 else { textx = 1 ; textadj = c(1,1) }
 text( textx , 1.0*max(pThetaGivenData) ,
       bquote( "beta(" * theta * "|" * .(a) * "," * .(b) * ")"  ) ,
