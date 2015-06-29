@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Chapter 5: Exercises</title>
+
+<script src="libs/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.1/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/respond.min.js"></script>
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    @media (max-width: 979px) {
+        body {
+            padding-top: 0;
+        }
+    }
+
+    @media (min-width: 980px) {
+        .section h2 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+        .section h3 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    #disqus_thread {
+        margin-top: 45px;
+    }
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+<h2>Doing Bayesian Data Analysis</h2>
+<h5>Working through the book <a href="http://www.amazon.co.uk/Doing-Bayesian-Data-Analysis-Tutorial/dp/0123814855/ref=sr_1_2?s=books&ie=UTF8&qid=1432494439&sr=1-2&keywords=doing+bayesian+data+analysis">Doing Bayesian Data Analysis</a> (ed.1) by John Kruschke, inc. examples and exercises.</h5>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#dba-nav">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://durtal.github.io" class="navbar-brand">durtal.github.io</a>
+        </div>
+        <div class="collapse navbar-collapse" id="dba-nav">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html">DBDA Home</a>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        Exercises <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="chapter2-exercises.html">Chapter 2</a>
+                        </li>
+                        <li>
+                            <a href="chapter3-exercises.html">Chapter 3</a>
+                        </li>
+                        <li>
+                            <a href="chapter4-exercises.html">Chapter 4</a>
+                        </li>
+                        <li>
+                            <a href="chapter5-exercises.html">Chapter 5</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="header">
+<h1 class="title">Chapter 5: Exercises</h1>
+</div>
+
+
+<div id="inferring-a-binomial-proportion-via-exact-mathematical-analysis" class="section level2">
+<h2>Inferring a Binomial Proportion via Exact Mathematical Analysis</h2>
+<div id="section" class="section level3">
+<h3>5.1</h3>
+<p>For this exercise, use the R function of Section 5.5.1 <a href="https://github.com/durtal/dba-ed1/blob/master/code-data/BernBeta.R">BernBeta.R</a>. Notice that the function returns the posterior beta values each time it is called, so you can use the returned values as the prior values for the next function call. (I have adapted the BernBeta function slightly, and the function is included at the bottom.)</p>
+<blockquote>
+<p>Start with a prior distribution that expresses some uncertainty that a coin is fair: <span class="math">\(beta(\theta | 4, 4)\)</span>. Flip the coin once; suppose we get a head. What is the posterior distribution?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.1a &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>), <span class="dv">1</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Use the posterior from the previous flip as the prior for the next flip. Suppose we flip again and get a head. Now what is the new posterior?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.1b &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(posterior5.1a, <span class="dv">1</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Using the posterior from the second flip, flip a third time and get a tails. Now what is the new posterior?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.1c &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(posterior5.1b, <span class="dv">0</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Do the same three updates, but in the order T, H, H instead of H, H, T. Is the final posterior distribution the same for bother orderings of flips?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.1d &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>), <span class="dv">0</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)
+posterior5.1e &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(posterior5.1d, <span class="dv">1</span>, <span class="dt">plot =</span> <span class="ot">FALSE</span>)
+posterior5.1f &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(posterior5.1e, <span class="dv">1</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-1" class="section level3">
+<h3>5.2</h3>
+<p>Suppose an election is approaching, and you are interested in knowing whether the general population prefers candidate A or candidate B. A recently published poll in the newspaper states that of 100 randomly sampled people, 58 preferred candidate A and the remainder preferred candidate B.</p>
+<blockquote>
+<p>Suppose that before the newspaper poll, your prior belief was a uniform distribution. What is the 95% HDI on your beliefs after learning of the newspaper poll results?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">58</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">42</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" width="672" /></p>
+<p>95% HDI (highest density interval) goes from <strong>0.483</strong> to <strong>0.673</strong></p>
+<blockquote>
+<p>Based on the newspaper poll, is it credible to believe that the population is equally divided in its candidate preference?</p>
+</blockquote>
+<p>The HDI contains <span class="math">\(\theta = 0.5\)</span>, so it is credible to believe that the population is divided.</p>
+<blockquote>
+<p>You want to conduct a follow up poll to narrow down your estimate of the population’s preference. In the poll you sample 100 people and find that 57 prefer candidate A and the remainder prefer candidate B. Assuming that peoples opinions have not changed between polls, what is the 95% HDI on the posterior? And based on the second poll is the population divided in its preference for each candidates?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.2c &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(posterior5<span class="fl">.2</span>, <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">57</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">43</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" width="672" /></p>
+<p>The 95% HDI goes from <strong>0.506</strong> to <strong>0.642</strong>, which does not include <span class="math">\(\theta = 0.5\)</span>, so we could conclude that the population is not equally divided, and does prefer candidate A.</p>
+</div>
+<div id="section-2" class="section level3">
+<h3>5.3</h3>
+<p>Suppose you train people in a simple learning experiment, as follows. When people see the two words “radio” and “ocean”, on the computer screen, they should press the F key on the keyboard. They see several repetitions and learn the response well. The you introduce another correspondence for them to learn: Whenever the words “radio” and “mountain” appear, they should press the J key. You keep training them until they know both correspondence well.</p>
+<p>Now you probe what they’ve learned by asking them about two novel test items. For the first test you show them the word “radio” by itself and instruct them to make the best response (F or J) based on what they learned before. For the second test, you show them two words “ocean” and “mountain” and ask them to make the best response. You do this procedure with 50 people. Your data show that for “radio” by itself, 40 people chose F and 10 chose J. For the word combination “ocean” and “mountain”, 15 chose F and 35 chose J.</p>
+<blockquote>
+<p>Are people biased toward F or toward J for either of the two probe types? To answer this question, assume a uniform prior, and use a 95% HDI to decide which biases can be declared credible.</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.3a &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">40</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.3b &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">15</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">35</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-8-2.png" title="" alt="" width="672" /></p>
+<p>In both cases the 95% HDI excludes <span class="math">\(\theta = 0.5\)</span> so we can decide that people are biased in their responses, however they are biased toward F in the first case and toward J in the second case.</p>
+</div>
+<div id="section-3" class="section level3">
+<h3>5.4</h3>
+<p>Suppose we have a coin that we know comes from a magic store, and therefore we believe that the coin is strongly biased either usually to come up heads or usually to come up tails, but we don’t know which. Express this belief as a beta prior.</p>
+<blockquote>
+<p>Now we flip the coin five times and it comes up heads in four of the five flips. What is the posterior distribution?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-4" class="section level3">
+<h3>5.5</h3>
+<p>Suppose you have a coin that you know is minted by the federal government and has not been tampered with. Therefore, you have strong prior belief that the coin is fair. You flip the coin 10 times and get 9 heads…</p>
+<blockquote>
+<p>What is your predicted probability of heads for the 11th flip?</p>
+</blockquote>
+<p>Our strength of belief in the fairness of the coin can be assumed to have a prior of <span class="math">\(beta(\theta|500, 500)\)</span>, if we suppose the coin had been flipped a 1000 times with 50% heads.</p>
+<p>The posterior is <span class="math">\(beta(\theta | (500 + 9), (500 + 1))\)</span>, which has a mean of <span class="math">\(509 / (509 + 501) = 0.5039604\)</span>, this is the predicted probability of heads for the 11th flip.</p>
+<blockquote>
+<p>Now you have a different coin, made of a strange material and marked “Patent Pending, International Magic Inc”. You flip the coin 10 times and get 9 heads. What is your predicted probability of heads for the 11th flip?</p>
+</blockquote>
+<p>Using a prior of <span class="math">\(beta(\theta | 0.5, 0.5)\)</span>, because it expresses a belief that the coin is biased. The posterior is <span class="math">\(beta(\theta | (0.5 + 9), (0.5 + 1))\)</span>, which has a mean of <span class="math">\(9.5 / (9.5 + 1.5) = 0.8636364\)</span>. This is the predicted probability of heads for the 11th flip.</p>
+</div>
+<div id="section-5" class="section level3">
+<h3>5.6</h3>
+<blockquote>
+<p>Suppose we have a coin, but we’re not sure whether it’s a fair coin or a trick coin. We flip it 20 times and get 15 heads. Is it more likely to be fair or trick?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.6fair &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">15</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">posterior5.6biased &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">15</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">5</span>)))</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-10-2.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-6" class="section level3">
+<h3>5.7</h3>
+<p>Suppose we have a coin that we strongly believe is a trick coin, so it almost always comes up heads or it almost always comes up tails; we just don’t know which way (heads or tails) the coin is biased.</p>
+<p>One model is a beta prior heavily biased towards tails <span class="math">\(beta(\theta | 1, 100)\)</span>, and the other model is a beta prior heavily biased towards heads <span class="math">\(beta(\theta | 100, 1)\)</span>. We flip the coin once and it comes up heads.</p>
+<blockquote>
+<p>Based on that single flip, what is the value of the <strong>Bayes Factor</strong>?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">heads &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">1</span>), <span class="dv">1</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-11-1.png" title="" alt="" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">tails &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">100</span>), <span class="dv">1</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-11-2.png" title="" alt="" width="672" /></p>
+<p>The model with a beta prior heavily biased towards heads is favoured by a Bayes Factor of <strong>0.99 / 0.0099 = 100</strong></p>
+</div>
+<div id="section-7" class="section level3">
+<h3>5.8</h3>
+<p>Following the scenario of the previous exercise, suppose we flip the coin a total of <span class="math">\(N = 12\)</span> times and it comes up heads in <span class="math">\(z = 8\)</span> of those flips. Suppose we let a <span class="math">\(beta(\theta | 100, 1)\)</span> distribution describe the head-biased trick coin, and we let a <span class="math">\(beta(\theta | 1, 100)\)</span> distribution describe the tail-biased trick coin.</p>
+<blockquote>
+<p>What are the evidences for the two models, and what is the value of the Bayes Factor?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">heads &lt;-<span class="st"> </span><span class="kw">beta</span>(<span class="dv">100</span> +<span class="st"> </span><span class="dv">8</span>, <span class="dv">12</span> -<span class="st"> </span><span class="dv">8</span> +<span class="st"> </span><span class="dv">1</span>) /<span class="st"> </span><span class="kw">beta</span>(<span class="dv">100</span>, <span class="dv">1</span>)
+tails &lt;-<span class="st"> </span><span class="kw">beta</span>(<span class="dv">1</span> +<span class="st"> </span><span class="dv">8</span>, <span class="dv">12</span> -<span class="st"> </span><span class="dv">8</span> +<span class="st"> </span><span class="dv">100</span>) /<span class="st"> </span><span class="kw">beta</span>(<span class="dv">1</span>, <span class="dv">100</span>)</code></pre>
+<p>The the heads-biased coin with prior <span class="math">\(beta(\theta | 100, 1)\)</span>, <span class="math">\(p(D) = 1.4908272\times 10^{-7}\)</span>, and for the tails-biased coin with prior <span class="math">\(beta(\theta | 1, 100)\)</span>, <span class="math">\(p(D) = 2.0222009\times 10^{-12}\)</span>. The Bayes Factor is therefore <span class="math">\(1.4908272\times 10^{-7} / 2.0222009\times 10^{-12} = 7.3723\times 10^{4}\)</span>, the head-biased prior is heavily favoured!</p>
+<p>Now for the new part, a posterior predictive check. Is the winning model actually a good model of the data? In other words, one model can be whoppingly better than the other, but that does not necessarily mean that the winning model is a good model; it might mean merely that the winning model is less bad than the losing model. One way to examine the veracity of the winning model is to simulate data sampled from the winning model and see if the simulated data “look like” the actual data. To simulate data generated by the winning model, we do the following:</p>
+<p>First, we will randomly generate a value from the posterior distribution of the winning omdel. Second, using that value, we will generate a sample of coin flips. Third, we will count the number of heads in the sample, as a summary of the sample. Finally, we determine whether the number of heads in a typical simulated sample is close to the number of heads in our actual sample. The follow program carries out these steps:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># priors</span>
+priorA &lt;-<span class="st"> </span><span class="dv">100</span>
+priorB &lt;-<span class="st"> </span><span class="dv">1</span>
+actualDataZ &lt;-<span class="st"> </span><span class="dv">8</span>
+actualDataN &lt;-<span class="st"> </span><span class="dv">12</span>
+<span class="co"># compute posterior parameter values</span>
+postA &lt;-<span class="st"> </span>priorA +<span class="st"> </span>actualDataZ
+postB &lt;-<span class="st"> </span>priorB +<span class="st"> </span>actualDataN -<span class="st"> </span>actualDataZ
+<span class="co"># number of flips in a simulated sample should match the actual sample</span>
+simSampleSize &lt;-<span class="st"> </span>actualDataN
+<span class="co"># number of simulated samples</span>
+Nsamples &lt;-<span class="st"> </span><span class="dv">10000</span>
+<span class="co"># create empty vector to store simulated results</span>
+simulatedZ &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">length =</span> Nsamples)
+<span class="co"># now generate posterior samples</span>
+for(index in <span class="dv">1</span>:Nsamples){
+    <span class="co"># generate theta value from posterior</span>
+    sampleTheta &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">1</span>, postA, postB)
+    <span class="co"># generate sample using sampleTheta</span>
+    sampleData &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">prob =</span> <span class="kw">c</span>(<span class="dv">1</span>-sampleTheta, sampleTheta),
+                         <span class="dt">size =</span> simSampleSize, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+    <span class="co"># store number of heads in empty vector</span>
+    simulatedZ[index] &lt;-<span class="st"> </span><span class="kw">sum</span>(sampleData)
+}
+
+<span class="co"># make a histogram of the number of heads in the sample</span>
+<span class="kw">hist</span>(simulatedZ, <span class="dt">col =</span> <span class="st">&quot;lightblue&quot;</span>)</code></pre>
+<p><img src="chapter5-exercises_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>How many samples (each of size N) were simulated?</p>
+</blockquote>
+<p>This is the <em>Nsamples</em> variable above, so <span class="math">\(10^{4}\)</span> were used.</p>
+<blockquote>
+<p>Was the same value used for every simulated sample, or were different values used in different sample?</p>
+</blockquote>
+<p>Values of theta were randomly sampled using the posterior, the line <em>sampleTheta = rbeta(1, postA, postB)</em> calculates a theta per simulation, so one theta value may be 0.964262, another may be 0.9790824.</p>
+<blockquote>
+<p>Based on the simulation results, does the winning model seem to be a good model?</p>
+</blockquote>
+<p>The histogram shown above almost never generates <span class="math">\(z = 8\)</span>, the head biased model is extremely head biased, but the result, 8 heads, is only moderately head biased. Therefore, despite the model be far better than the tail biased moodel, the head-biased model is probably a poor model of the actual data.</p>
+<hr>
+</div>
+<div id="bernbeta-function-used-to-generate-plots-on-the-page" class="section level3">
+<h3>BernBeta function (used to generate plots on the page)</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Bayesian updating for Bernoulli likelihood and beta prior.</span>
+<span class="co"># args:</span>
+<span class="co">#   priorShape  : vector of parameter values for the prior beta distribution</span>
+<span class="co">#   dataVec     : vector of 1&#39;s and 0&#39;s</span>
+<span class="co">#   credMass    : the probability mass of the HDI</span>
+<span class="co">#   plot        : plot prior, likelihood and posterior</span>
+<span class="co"># output:</span>
+<span class="co">#   postShape   : vector of parameter values for the posterior beta distribution</span>
+BernBeta &lt;-<span class="st"> </span>function(priorShape, dataVec, <span class="dt">credMass =</span> <span class="fl">0.95</span>, <span class="dt">plot =</span> <span class="ot">TRUE</span>) {
+   
+    <span class="co"># check inputs</span>
+    if(<span class="kw">length</span>(priorShape) !=<span class="st"> </span><span class="dv">2</span>) <span class="kw">stop</span>(<span class="st">&quot;priorShape must have two, numeric, components.&quot;</span>)
+    if(<span class="kw">any</span>(priorShape &lt;=<span class="st"> </span><span class="dv">0</span>)) <span class="kw">stop</span>(<span class="st">&quot;priorShape components must be positive.&quot;</span>)
+    if(<span class="kw">any</span>(dataVec !=<span class="st"> </span><span class="dv">1</span> &amp;<span class="st"> </span>dataVec !=<span class="dv">0</span>)) <span class="kw">stop</span>(<span class="st">&quot;dataVec must be a vector of 1&#39;s and 0&#39;s.&quot;</span>)
+    if(credMass &lt;=<span class="st"> </span><span class="dv">0</span> |<span class="st"> </span>credMass &gt;=<span class="st"> </span><span class="dv">1</span>) <span class="kw">stop</span>(<span class="st">&quot;credMass must be between 0 and 1.&quot;</span>)
+    
+    <span class="co"># rename prior shape parameters</span>
+    a &lt;-<span class="st"> </span>priorShape[<span class="dv">1</span>]
+    b &lt;-<span class="st"> </span>priorShape[<span class="dv">2</span>]
+    <span class="co"># summarise new data</span>
+    z &lt;-<span class="st"> </span><span class="kw">sum</span>(dataVec)
+    N &lt;-<span class="st"> </span><span class="kw">length</span>(dataVec)
+    <span class="co"># compute posterior shape parameters</span>
+    postShape &lt;-<span class="st"> </span><span class="kw">c</span>(a +<span class="st"> </span>z, b +<span class="st"> </span>N -<span class="st"> </span>z)
+    <span class="co"># compute the evidence, p(D)</span>
+    pData &lt;-<span class="st"> </span><span class="kw">beta</span>(z +<span class="st"> </span>a, N -<span class="st"> </span>z +<span class="st"> </span>b) /<span class="st"> </span><span class="kw">beta</span>(a, b)
+    <span class="co"># determine limits of Highest Density Interval</span>
+    hpdLim &lt;-<span class="st"> </span><span class="kw">HDIofICDF</span>(<span class="dt">ICDFname =</span> qbeta, <span class="dt">shape1 =</span> postShape[<span class="dv">1</span>], <span class="dt">shape2 =</span> postShape[<span class="dv">2</span>],
+                        <span class="dt">credMass =</span> credMass)
+    if(plot) {
+        <span class="co"># plot everything</span>
+        binwidth &lt;-<span class="st"> </span><span class="fl">0.005</span>
+        Theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> binwidth /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>(binwidth /<span class="st"> </span><span class="dv">2</span>), <span class="dt">by =</span> binwidth)
+        pTheta &lt;-<span class="st"> </span><span class="kw">dbeta</span>(Theta, a, b)
+        pDataGivenTheta &lt;-<span class="st"> </span>Theta^<span class="dv">2</span> *<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span>Theta)^(N-z)
+        pThetaGivenData &lt;-<span class="st"> </span><span class="kw">dbeta</span>(Theta, a +<span class="st"> </span>z, b +<span class="st"> </span>N -<span class="st"> </span>z)
+        
+        <span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))
+        <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="dt">mai =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>))
+        maxY &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">c</span>(pTheta, pThetaGivenData))
+        <span class="co"># plot prior</span>
+        <span class="kw">plot</span>(Theta, pTheta, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, maxY),
+             <span class="dt">xlab =</span> <span class="kw">bquote</span>(theta), <span class="dt">ylab =</span> <span class="kw">bquote</span>(<span class="kw">p</span>(theta)), <span class="dt">main =</span> <span class="st">&quot;Prior&quot;</span>,
+             <span class="dt">col =</span> <span class="st">&quot;#FF0000&quot;</span>)
+        if(a &gt;<span class="st"> </span>b) {
+            textx &lt;-<span class="st"> </span><span class="dv">0</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)
+        } else {
+            textx &lt;-<span class="st"> </span><span class="dv">1</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+        }
+        <span class="kw">text</span>(textx, <span class="fl">1.0</span>*<span class="kw">max</span>(pThetaGivenData), <span class="kw">bquote</span>(<span class="st">&quot;beta(&quot;</span> *<span class="st"> </span>theta *<span class="st"> &quot;|&quot;</span> *<span class="st"> </span>.(a) *<span class="st"> &quot;,&quot;</span> *<span class="st"> </span>.(b) *<span class="st"> &quot;)&quot;</span>), <span class="dt">adj =</span> textadj)
+        
+        <span class="co"># plot likelihood</span>
+        <span class="kw">plot</span>(Theta, pDataGivenTheta, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, 
+             <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">1.1</span>*<span class="kw">max</span>(pDataGivenTheta)), 
+             <span class="dt">xlab =</span> <span class="kw">bquote</span>(theta), <span class="dt">ylab =</span> <span class="kw">bquote</span>(<span class="st">&quot;p(D|&quot;</span> *<span class="st"> </span>theta *<span class="st"> &quot;)&quot;</span>),
+             <span class="dt">main =</span> <span class="st">&quot;Likelihood&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FF0000&quot;</span>)
+        if(z &gt;<span class="st"> </span><span class="fl">0.5</span>*N) {
+            textx &lt;-<span class="st"> </span><span class="dv">0</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)
+        } else {
+            textx &lt;-<span class="st"> </span><span class="dv">1</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+        }
+        <span class="kw">text</span>(textx, <span class="fl">1.0</span>*<span class="kw">max</span>(pDataGivenTheta), <span class="kw">bquote</span>(<span class="st">&quot;Data: z=&quot;</span> *<span class="st"> </span>.(z) *<span class="st"> &quot;,N=&quot;</span> *<span class="st"> </span>.(N)), <span class="dt">adj =</span> textadj)
+        
+        <span class="co"># plot posterior</span>
+        <span class="kw">plot</span>(Theta, pThetaGivenData, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, 
+             <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, maxY), 
+             <span class="dt">xlab =</span> <span class="kw">bquote</span>(theta), <span class="dt">ylab =</span> <span class="kw">bquote</span>(<span class="st">&quot;p(&quot;</span> *<span class="st"> </span>theta *<span class="st"> &quot;|D)&quot;</span>), 
+             <span class="dt">main =</span> <span class="st">&quot;Posterior&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#FF0000&quot;</span>)
+        if(a +<span class="st"> </span>z &gt;<span class="st"> </span>b +<span class="st"> </span>N -<span class="st"> </span>z) {
+            textx &lt;-<span class="st"> </span><span class="dv">0</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)
+        } else {
+            textx &lt;-<span class="st"> </span><span class="dv">1</span>
+            textadj &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)
+        }
+        <span class="kw">text</span>(textx, <span class="dv">1</span>*<span class="kw">max</span>(pThetaGivenData), <span class="kw">bquote</span>(<span class="st">&quot;beta(&quot;</span> *<span class="st"> </span>theta *<span class="st"> &quot;|&quot;</span> *<span class="st"> </span>.(a +<span class="st"> </span>z) *<span class="st"> &quot;,&quot;</span> *<span class="st"> </span>.(b +<span class="st"> </span>N -<span class="st"> </span>z) *<span class="st"> &quot;)&quot;</span>), <span class="dt">adj =</span> textadj)
+        <span class="kw">text</span>(textx, <span class="fl">0.75</span>*<span class="kw">max</span>(pThetaGivenData), <span class="kw">bquote</span>(<span class="st">&quot;p(D)=&quot;</span> *<span class="st"> </span>.(<span class="kw">signif</span>(pData, <span class="dv">3</span>))), <span class="dt">adj =</span> textadj)
+        
+        <span class="co"># mark the HDI in the posterior</span>
+        hpdHt &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">c</span>(<span class="kw">dbeta</span>(hpdLim[<span class="dv">1</span>], a+z, b+N-z), <span class="kw">dbeta</span>(hpdLim[<span class="dv">2</span>], a+z, b+N-z)))
+        <span class="kw">lines</span>(<span class="kw">c</span>(hpdLim[<span class="dv">1</span>], hpdLim[<span class="dv">1</span>]), <span class="kw">c</span>(-<span class="fl">0.5</span>, hpdHt), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="fl">1.25</span>)
+        <span class="kw">lines</span>(<span class="kw">c</span>(hpdLim[<span class="dv">2</span>], hpdLim[<span class="dv">2</span>]), <span class="kw">c</span>(-<span class="fl">0.5</span>, hpdHt), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="fl">1.25</span>)
+        <span class="kw">lines</span>(hpdLim, <span class="kw">c</span>(hpdHt, hpdHt), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>)
+        <span class="kw">text</span>(<span class="kw">mean</span>(hpdLim), hpdHt, <span class="kw">bquote</span>(.(<span class="dv">100</span>*credMass) *<span class="st"> &quot;% HDI&quot;</span>), <span class="dt">adj =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, -<span class="dv">1</span>))
+        <span class="kw">text</span>(hpdLim[<span class="dv">1</span>], hpdHt, <span class="kw">bquote</span>(.(<span class="kw">round</span>(hpdLim[<span class="dv">1</span>], <span class="dv">3</span>))), <span class="dt">adj =</span> <span class="kw">c</span>(<span class="fl">1.1</span>, -<span class="fl">0.1</span>))
+        <span class="kw">text</span>(hpdLim[<span class="dv">2</span>], hpdHt, <span class="kw">bquote</span>(.(<span class="kw">round</span>(hpdLim[<span class="dv">2</span>], <span class="dv">3</span>))), <span class="dt">adj =</span> <span class="kw">c</span>(-<span class="fl">0.1</span>, -<span class="fl">0.1</span>))        
+    }
+
+    <span class="co"># return posterior shape</span>
+    <span class="kw">return</span>(postShape)
+}
+<span class="co"># Compute HDI</span>
+<span class="co"># args:</span>
+<span class="co">#   ICDFname    : is R&#39;s name for inverse cumulative density function of the distribution</span>
+<span class="co">#   credMass    : desired mass of the HDI region</span>
+<span class="co">#   tol         : is passed to R&#39;s optimise function</span>
+<span class="co"># output:</span>
+<span class="co">#   HDI         : highest density interval limits in a vector</span>
+HDIofICDF &lt;-<span class="st"> </span>function(ICDFname, <span class="dt">credMass =</span> <span class="fl">0.95</span>, <span class="dt">tol =</span> <span class="fl">1e-8</span>, ...) {
+    
+    incredMass &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>credMass
+    intervalWidth &lt;-<span class="st"> </span>function(lowTrailPr, ICDFname, credMass, ...) {
+        <span class="kw">ICDFname</span>(credMass +<span class="st"> </span>lowTrailPr, ...) -<span class="st"> </span><span class="kw">ICDFname</span>(lowTrailPr, ...)
+    }
+    optInfo &lt;-<span class="st"> </span><span class="kw">optimise</span>(intervalWidth, <span class="kw">c</span>(<span class="dv">0</span>, incredMass), <span class="dt">ICDFname =</span> ICDFname, 
+                        <span class="dt">credMass =</span> credMass, <span class="dt">tol =</span> tol, ...)
+    HDIlowTailPr &lt;-<span class="st"> </span>optInfo$minimum
+    <span class="kw">return</span>(<span class="kw">c</span>(<span class="kw">ICDFname</span>(HDIlowTailPr, ...), <span class="kw">ICDFname</span>(credMass +<span class="st"> </span>HDIlowTailPr, ...)))
+}</code></pre>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
