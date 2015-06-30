@@ -1,0 +1,5 @@
+---
+title: 'Chapter 6: Exercises'
+---
+
+## Inferring a Binomial Proportion via Grid Approximation
