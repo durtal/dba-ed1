@@ -50,6 +50,27 @@
 </style>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
 
 
 </head>
@@ -123,6 +144,45 @@ img {
 
 <div id="inferring-a-binomial-proportion-via-grid-approximation" class="section level2">
 <h2>Inferring a Binomial Proportion via Grid Approximation</h2>
+<div id="section" class="section level3">
+<h3>6.1</h3>
+<p>Consider this R code for discretising a <span class="math">\(beta(\theta | 8, 4)\)</span> distribution:</p>
+<pre class="sourceCode r"><code class="sourceCode r">nIntervals &lt;-<span class="st"> </span><span class="dv">10</span>
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span>nIntervals
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+approxMass &lt;-<span class="st"> </span><span class="kw">dbeta</span>(theta, <span class="dv">8</span>, <span class="dv">4</span>) *<span class="st"> </span>width
+pTheta &lt;-<span class="st"> </span>approxMass /<span class="st"> </span><span class="kw">sum</span>(approxMass)</code></pre>
+<blockquote>
+<p>What is the value of <code>sum(approxMass)</code>? Why is it not exactly 1?</p>
+</blockquote>
+<p><code>approxMass =</code>0.9991421, it does not equal 1 because intervals are discrete, the smaller the intervals, the closer <code>sum(approxMass)</code> would be to 1.</p>
+<blockquote>
+<p>Suppose we use the following code to define the grid of points instead:</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> width)</code></pre>
+<blockquote>
+<p>why is this appropriate?</p>
+</blockquote>
+<p>Each interval value is discrete, so the low (0) and high (1) values would refer to invalid theta values <span class="math">\(\left[ 0 &lt; \theta &gt; 1 \right]\)</span>.</p>
+</div>
+<div id="section-1" class="section level3">
+<h3>6.2</h3>
+<p>Suppose we have a coin that has a head on one side and a tail on the other. We think it might be fair, or it might be a trick coin that is heavily biased toward heads or tails. We want to express this prior belief with a single prior over <span class="math">\(\theta\)</span>. Therefore the prior needs to have three peaks: one near 0, one around 0.5 and one near 1. But these peaks are not just isolated spikes, because we have uncertainty about the actual value of <span class="math">\(\theta\)</span></p>
+<blockquote>
+<p>Express your prior belief as a list of probability masses over a fairly dense grid of <span class="math">\(\theta\)</span> values. Remember to set a gradual decline around the three peaks. Justify you choice. You can specify the peaks however you want, but one simple way is something like:</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>, <span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>)
+pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)</code></pre>
+<blockquote>
+<p>Suppose you flip the coin 20 times and get 15 heads. Use the R function of Section 6.7.1 (<a href="https://github.com/durtal/dba-ed1/blob/master/code-data/BernGrid.R">BernGrid.R</a>) to display the posterior beliefs. Include the R code that specified the prior values</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>, <span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>)
+pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)</code></pre>
+</div>
 </div>
 
 

@@ -3,3 +3,52 @@ title: 'Chapter 6: Exercises'
 ---
 
 ## Inferring a Binomial Proportion via Grid Approximation
+
+### 6.1
+
+Consider this R code for discretising a $beta(\theta | 8, 4)$ distribution:
+
+```{r}
+nIntervals <- 10
+width <- 1 / nIntervals
+theta <- seq(from = width / 2, to = 1 - width / 2, by = width)
+approxMass <- dbeta(theta, 8, 4) * width
+pTheta <- approxMass / sum(approxMass)
+```
+
+> What is the value of `sum(approxMass)`? Why is it not exactly 1?
+
+`approxMass =``r sum(approxMass)`, it does not equal 1 because intervals are discrete, the smaller the intervals, the closer `sum(approxMass)` would be to 1.
+
+> Suppose we use the following code to define the grid of points instead:
+
+```{r}
+theta <- seq(from = 0, to = 1, by = width)
+```
+
+> why is this appropriate?
+
+Each interval value is discrete, so the low (0) and high (1) values would refer to invalid theta values $\left[ 0 < \theta > 1 \right]$.
+
+### 6.2
+
+Suppose we have a coin that has a head on one side and a tail on the other.  We think it might be fair, or it might be a trick coin that is heavily biased toward heads or tails.  We want to express this prior belief with a single prior over $\theta$.  Therefore the prior needs to have three peaks: one near 0, one around 0.5 and one near 1.  But these peaks are not just isolated spikes, because we have uncertainty about the actual value of $\theta$
+
+> Express your prior belief as a list of probability masses over a fairly dense grid of $\theta$ values.  Remember to set a gradual decline around the three peaks.  Justify you choice.  You can specify the peaks however you want, but one simple way is something like:
+
+```{r eval=FALSE}
+pTheta <- c(50:1, rep(1, 50), 1:50, 50:1, rep(1, 50), 1:50)
+pTheta <- pTheta / sum(pTheta)
+width <- 1 / length(pTheta)
+theta <- seq(from = width / 2, to = 1 - width / 2, by = width)
+```
+
+> Suppose you flip the coin 20 times and get 15 heads.  Use the R function of Section 6.7.1 ([BernGrid.R](https://github.com/durtal/dba-ed1/blob/master/code-data/BernGrid.R)) to display the posterior beliefs.  Include the R code that specified the prior values
+
+```{r}
+pTheta <- c(50:1, rep(1, 50), 1:50, 50:1, rep(1, 50), 1:50)
+pTheta <- pTheta / sum(pTheta)
+width <- 1 / length(pTheta)
+theta <- seq(from = width / 2, to = 1 - width / 2, by = width)
+
+```
