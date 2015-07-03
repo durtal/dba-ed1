@@ -130,6 +130,9 @@ img {
                         <li>
                             <a href="chapter5-exercises.html">Chapter 5</a>
                         </li>
+                        <li>
+                            <a href="chapter6-exercises.html">Chapter 6</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -174,14 +177,146 @@ pTheta &lt;-<span class="st"> </span>approxMass /<span class="st"> </span><span 
 <pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>, <span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>)
 pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
 width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
-theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)</code></pre>
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+<span class="kw">plot</span>(theta, pTheta, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</code></pre>
 <blockquote>
 <p>Suppose you flip the coin 20 times and get 15 heads. Use the R function of Section 6.7.1 (<a href="https://github.com/durtal/dba-ed1/blob/master/code-data/BernGrid.R">BernGrid.R</a>) to display the posterior beliefs. Include the R code that specified the prior values</p>
 </blockquote>
 <pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>, <span class="dv">50</span>:<span class="dv">1</span>, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">50</span>), <span class="dv">1</span>:<span class="dv">50</span>)
 pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
 width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
-theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)</code></pre>
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+post &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> pTheta, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">15</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">5</span>)), <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-2" class="section level3">
+<h3>6.3</h3>
+<blockquote>
+<p>Using the same prior that was used in the previous exercise, suppose you flip the coin just 4 times and get 3 heads. Use the R function of Section 6.7.1 (<a href="https://github.com/durtal/dba-ed1/blob/master/code-data/BernGrid.R">BernGrid.R</a>) to display the posterior.</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior6.3a &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> pTheta, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Suppose we flip the coin an additional 16 times and get 12 heads. Now what is the posterior distribution? To answer this question, use the posterior distribution that is output by the function in the previous part as the prior for this part.</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior6.3b &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> posterior6.3a, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">12</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">4</span>)), <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-3" class="section level3">
+<h3>6.4</h3>
+<p>Suppose an election is approaching and you are interested in knowing whether the general population prefers candidate A or candidate B. A recently published poll in the newspaper states that of 100 randomly sampled people, 58 preferred candidate A, and the remainder preferred candidate B.</p>
+<blockquote>
+<p>Suppose that before the newspaper poll your prior belief was a uniform distribution. What is the 95% HDI on your beliefs after learning of the newspaper poll results.</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">1000</span>)
+pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span>-width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+posterior6.4a &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> pTheta, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">58</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">42</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Based on the newspaper poll, is it credible to believe that the population is equally divided in its preferences for each candidate.</p>
+</blockquote>
+<p>Yes, it is credible, as the 95% HDI includes 0.5</p>
+<blockquote>
+<p>You want to conduct a follow up poll to narrow down your estimate of the population’s preference. In your follow up poll, you randomly sample 100 people and find that 57 prefer candidate A and the remainder prefer candidate B. Assuming that people’s opinions have not changed between polls, what is the 95% HDI on the posterior</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">posterior6.4c &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> posterior6.4a, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">57</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">43</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Based on your follow up poll, is it credible to believe that the population is equally divided in its preferences for each candidate.</p>
+</blockquote>
+<p>The 95% HDI does not include 0.5, so it is not credible to believe that the population is not divided between each candidate.</p>
+</div>
+<div id="section-4" class="section level3">
+<h3>6.5</h3>
+<p>Suppose that the newly hired quality control manager at the ACME Widget factory is trying to convince the CEO that the proportion of defective widgets coming off the assembly line is less than 10%. No previous data are available regarding the defect rate at the factory. The manager randomly samples 500 widgets, and she finds that 28 of them are defective…</p>
+<blockquote>
+<p>What do you conclude about the defect rate?</p>
+</blockquote>
+<p>There is no uniquely correct prior, we can imagine the CEO is very skeptical about quality, and believes that even a very high defect rate is possible, although not as probable as low defect rates. Therefore the prior used here is linearly decreasing across the domain</p>
+<pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="dv">1000</span>:<span class="dv">1</span>
+pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+posterior6.5a &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> pTheta, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">28</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">500-28</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" width="672" /></p>
+<p>As an comparison, let’s look at a uniform prior</p>
+<pre class="sourceCode r"><code class="sourceCode r">pTheta &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">1000</span>)
+pTheta &lt;-<span class="st"> </span>pTheta /<span class="st"> </span><span class="kw">sum</span>(pTheta)
+width &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="kw">length</span>(pTheta)
+theta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>width /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> width)
+posterior6.5b &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> theta, <span class="dt">pTheta =</span> pTheta, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">28</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">500-28</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-11-1.png" title="" alt="" width="672" /></p>
+</div>
+<div id="section-5" class="section level3">
+<h3>6.6</h3>
+<blockquote>
+<p>Suppose we believe that a coin is biased to come up heads, and we describe our prior belief as quadratically increasing: <span class="math">\(p(\theta)\)</span> is proportional to <span class="math">\(\theta^2\)</span>. Suppose we flip the coin four times and observe two heads and two tails. Based on the posterior distribution, what is the predicted probability that the next flip will return a head?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">binwidth &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="dv">1000</span>
+thetagrid &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> binwidth /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>binwidth /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> binwidth)
+relprob &lt;-<span class="st"> </span>thetagrid^<span class="dv">2</span>
+prior &lt;-<span class="st"> </span>relprob /<span class="st"> </span><span class="kw">sum</span>(relprob)
+posterior6.6a &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> thetagrid, <span class="dt">pTheta =</span> prior, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">(predprob &lt;-<span class="st"> </span><span class="kw">sum</span>(thetagrid *<span class="st"> </span>posterior6.6a))</code></pre>
+<pre><code>## [1] 0.625</code></pre>
+</div>
+<div id="section-6" class="section level3">
+<h3>6.7</h3>
+<p>Suppose we have competing beliefs about the bias of a coin: One person believes the coin is head biased, and the second person believes the coin is tail biased. To make this specific, suppose the head-biased prior is <span class="math">\(p(\theta | M1)\)</span> proportional to <span class="math">\(\theta^2\)</span> and the tail-based prior is <span class="math">\(p(\theta | M2)\)</span> proportional to <span class="math">\((1 - \theta)^2\)</span>.</p>
+<blockquote>
+<p>Suppose that we are equally willing to entertain the two models, so <span class="math">\(p(M1) = p(M2) = 0.5\)</span>. We flip the coin <span class="math">\(N = 8\)</span> times and observe <span class="math">\(z = 6\)</span> heads. What is the ration of posterior beliefs (ie Bayes Factor)?</p>
+</blockquote>
+<pre class="sourceCode r"><code class="sourceCode r">binwidth &lt;-<span class="st"> </span><span class="dv">1</span> /<span class="st"> </span><span class="dv">1000</span>
+thetagrid &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> binwidth /<span class="st"> </span><span class="dv">2</span>, <span class="dt">to =</span> <span class="dv">1</span> -<span class="st"> </span>binwidth /<span class="st"> </span><span class="dv">2</span>, <span class="dt">by =</span> binwidth)
+<span class="co"># model 1</span>
+M1relprob &lt;-<span class="st"> </span>thetagrid ^<span class="st"> </span><span class="dv">2</span>
+M1prior &lt;-<span class="st"> </span>M1relprob /<span class="st"> </span><span class="kw">sum</span>(M1relprob)
+posterior6<span class="fl">.71</span> &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> thetagrid, <span class="dt">pTheta =</span> M1prior, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" width="672" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># model2</span>
+M2relprob &lt;-<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span>thetagrid) ^<span class="st"> </span><span class="dv">2</span>
+M2prior &lt;-<span class="st"> </span>M2relprob /<span class="st"> </span><span class="kw">sum</span>(M2relprob)
+posterior6<span class="fl">.72</span> &lt;-<span class="st"> </span><span class="kw">BernGrid</span>(<span class="dt">theta =</span> thetagrid, <span class="dt">pTheta =</span> M2prior, <span class="dt">Data =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-13-2.png" title="" alt="" width="672" /></p>
+<p>The posteriors show that <span class="math">\(p(D | M1) = 0.00606\)</span> and <span class="math">\(p(D | M2) = 0.00130\)</span>, so the Bayes Factor is <span class="math">\(0.00606 / 0.00130 = 4.66\)</span></p>
+</div>
+<div id="section-7" class="section level3">
+<h3>6.8</h3>
+<p>A pharmaceutical company claims that its new drug increases the probability that couples who take the drug will conceive a boy. The company has published no studies regarding this claim, so there is no public knowledge regarding the efficacy of the drug.</p>
+<p>Suppose you conduct a study in which 50 couples, sampled at random from the general population, take the drug during a period of time while trying to conceive a baby. Suppose that eventually wall couples conceive; there are 30 boys and 20 girls (no multiple births).</p>
+<blockquote>
+<p>You want to estimate the probability of conceiving a boy for couples who take the drug. What is an appropriate prior belief distribution? It cannot be the general population probability, because that is a highly peaked distribution near 0.5 that refers to non-drugged couples. Instead, the prior needs to relfect our pre-experiment uncertainty in the effect of the drug. Discuss your choice of prior with this in mind.</p>
+</blockquote>
+<p>A skeptical prior would be to use a prior based on the general population, highly peaked around 0.5, as it wouuld require a lot of data in order for beliefs to move. However, it seems reasonable that the prior should be centered around 0.5, but not as highly peaked. A prior of <span class="math">\(beta(\theta | 5,5)\)</span> is appropriate.</p>
+<blockquote>
+<p>Using your prior from the previous part, plot the posterior and decide whether it is credible that couples who take drugs have a 50% chance of conceiving a boy.</p>
+</blockquote>
+<p>We can use the BernBeta function from <a href="chapter5-exercises.html">Chapter 5</a>. The HDI in the posterior includes 0.5, so the manufacturer’s claim should not be believed.</p>
+<pre class="sourceCode r"><code class="sourceCode r">posterior6<span class="fl">.8</span> &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">30</span>), <span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">20</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" width="672" /></p>
+<blockquote>
+<p>Suppose that the drug manufacturers make a strong claim that their drug sets the probability of conceiving a boy to nearly 60%, with high certainty. Suppose you represent that claim by a <span class="math">\(beta(\theta | 60, 40)\)</span> prior. Compare that claim against the skeptic who says there is no effect of the drug, and the probability of conceiving a boy is represented by a <span class="math">\(beta(\theta | 50, 50)\)</span> prior. What is the value of <span class="math">\(p(D)\)</span> for each prior? What is the posterior belief in each claim?</p>
+</blockquote>
+<div class="row">
+<div class="col-sm-6">
+<pre class="sourceCode r"><code class="sourceCode r">posterior6.8a &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">40</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">30</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">20</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" width="672" /></p>
+</div>
+<div class="col-sm-6">
+<pre class="sourceCode r"><code class="sourceCode r">posterior6.8b &lt;-<span class="st"> </span><span class="kw">BernBeta</span>(<span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">30</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">20</span>)))</code></pre>
+<p><img src="chapter6-exercises_files/figure-html/unnamed-chunk-17-1.png" title="" alt="" width="672" /></p>
+</div>
+</div>
+<p>The Bayes Factor is <span class="math">\(1.98e-15 / 1.01e-15 = 1.96\)</span> in favour of the 60-40 prior. This is <strong>not</strong> the posterior odds, however, because we have to factor in the prior odds of the model priors. Suppose for example, that <span class="math">\(p(60-40)\)</span> prior is 0.33 and <span class="math">\(p(50-50)\)</span> prior is 0.67. Then the posterior odds are:</p>
+<p><span class="math">\[\begin{align}
+\frac{p(60-40 prior | D)}{p(50-50 prior | D)}
+&amp; = \frac{p(D | 60-40 prior)}{\frac{p(D | 50-50 prior) * p(60-40 prior)}{p(50-50 prior | D)}} \\
+&amp; = 1.96 * \frac{0.33}{0.67} \\
+&amp; = 0.97
+\end{align}\]</span></p>
 </div>
 </div>
 
