@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>How Not To Be Wrong</title>
+
+<script src="libs/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.1/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/respond.min.js"></script>
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    @media (max-width: 979px) {
+        body {
+            padding-top: 0;
+        }
+    }
+
+    @media (min-width: 980px) {
+        .section h2 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+        .section h3 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    #disqus_thread {
+        margin-top: 45px;
+    }
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+<h2>Doing Bayesian Data Analysis</h2>
+<h5>Working through the book <a href="http://www.amazon.co.uk/Doing-Bayesian-Data-Analysis-Tutorial/dp/0123814855/ref=sr_1_2?s=books&ie=UTF8&qid=1432494439&sr=1-2&keywords=doing+bayesian+data+analysis">Doing Bayesian Data Analysis</a> (ed.1) by John Kruschke, inc. examples and exercises.</h5>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#dba-nav">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://durtal.github.io" class="navbar-brand">durtal.github.io</a>
+        </div>
+        <div class="collapse navbar-collapse" id="dba-nav">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html">DBDA Home</a>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        Exercises <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="chapter2-exercises.html">Chapter 2</a>
+                        </li>
+                        <li>
+                            <a href="chapter3-exercises.html">Chapter 3</a>
+                        </li>
+                        <li>
+                            <a href="chapter4-exercises.html">Chapter 4</a>
+                        </li>
+                        <li>
+                            <a href="chapter5-exercises.html">Chapter 5</a>
+                        </li>
+                        <li>
+                            <a href="chapter6-exercises.html">Chapter 6</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        Other <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="how-not-to-be-wrong-roulette.html">How Not To Be Wrong</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="header">
+<h1 class="title">How Not To Be Wrong</h1>
+</div>
+
+
+<p>I’ve been reading <a href="http://www.amazon.co.uk/How-Not-Wrong-Hidden-Everyday/dp/071819604X/ref=sr_1_1?ie=UTF8&amp;qid=1436045088&amp;sr=8-1&amp;keywords=how+not+to+be+wrong">How Not To Be Wrong: The Hidden Maths of Everyday Life</a> by Jordan Ellenberg recently, unsurprisingly one of the chapters I’ve just read covered Bayesian Inference, and I wanted to turn the text into some R code. I haven’t finished the book yet, but it has been an enjoyable read thus far: the opening introduction, and specifically a story about the Mathematician Abraham Wald and the analysis of World War II planes and the bullet holes found on those planes, is particularly brilliant.</p>
+<p>Anyways, the chapter titled <em>Are You There, God? It’s Me Bayesian Inference</em>, the chapter doesn’t throw Bayes Theorem at you, instead it nicely, and slowly, builds to an example using a roulette wheel. If you weren’t familiar with Bayes Theorem then this approach to learning it could be very helpful, though I wrote repeat the text here, you’ll have to buy the book, or go to a bookstore and read this chapter. The example looks at the ball landing on red or black, and the beliefs that the roulette wheel is fair, biased towards black, or biased towards red. The prior belief/confidence in each of these are as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Biased</th>
+<th align="left">Description</th>
+<th align="left">Prior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>BLACK</strong></td>
+<td align="left">The roulette wheel is biased to make the ball land on black 60% of the time</td>
+<td align="left">0.05</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>FAIR</strong></td>
+<td align="left">The roulette wheel is fair, so the ball lands on red 50% of the time and black 50% of the time</td>
+<td align="left">0.90</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>RED</strong></td>
+<td align="left">The roulette wheel is biased to make the ball land on red 60% of the time</td>
+<td align="left">0.05</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">theta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>) <span class="co"># black, fair, red theories</span>
+pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.05</span>, <span class="fl">0.9</span>, <span class="fl">0.05</span>)
+
+<span class="kw">plot</span>(theta, pTheta, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Prior&quot;</span>)</code></pre>
+<p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="672" /></p>
+<p>The roulette wheel is spun 5 times, and the sequence comes up <strong>RED RED RED RED RED</strong>.</p>
+<blockquote>
+<p>How likely is it that we spin the wheel 5 times and get 5 <strong>RED</strong>’s?</p>
+</blockquote>
+<p>The answer depends on which of the three theories above is true:</p>
+<ul>
+<li>Under the <strong>BLACK</strong> theory the probability of getting 5 <strong>RED</strong>’s is <span class="math">\(0.4 * 0.4 * 0.4 * 0.4 * 0.4 = 0.4^5 = 0.01024\)</span></li>
+<li>Under the <strong>FAIR</strong> theory the probability of getting 5 <strong>RED</strong>’s is <span class="math">\(0.5 * 0.5 * 0.5 * 0.5 * 0.5 = 0.5^5 = 0.03125\)</span>.</li>
+<li>Under the <strong>RED</strong> theory the probability of getting 5 <strong>RED</strong>’s is <span class="math">\(0.6 * 0.6 * 0.6 * 0.6 * 0.6 = 0.6^5 = 0.07776\)</span></li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">(pDataGivenTheta &lt;-<span class="st"> </span>theta^<span class="dv">5</span>)</code></pre>
+<pre><code>## [1] 0.01024 0.03125 0.07776</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(theta, pDataGivenTheta, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Likelihood&quot;</span>)</code></pre>
+<p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="672" /></p>
+<p>The result of 5 <strong>RED</strong>’s is more likely if the roulette wheel is biased towards <strong>RED</strong>, than if the roulette wheel is <strong>FAIR</strong> or biased towards <strong>BLACK</strong>. To update our beliefs in light of this new evidence (5 <strong>RED</strong>’s) we follow Bayes Rule:</p>
+<pre class="sourceCode r"><code class="sourceCode r">(pData &lt;-<span class="st"> </span><span class="kw">sum</span>( pDataGivenTheta *<span class="st"> </span>pTheta ))</code></pre>
+<pre><code>## [1] 0.032525</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is Bayes Rule</span>
+(pThetaGivenData &lt;-<span class="st"> </span>pDataGivenTheta *<span class="st"> </span>pTheta /<span class="st"> </span>pData)</code></pre>
+<pre><code>## [1] 0.01574174 0.86471945 0.11953882</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(theta, pThetaGivenData, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Posterior&quot;</span>)</code></pre>
+<p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="672" /></p>
+<p>We can see that our beliefs have updated, but because we had such a strong prior that the roulette wheel was fair, we still believe that the roulette wheel is fairour beliefs haven’t updated much, if we spin the wheel another 10 times and find 7 <strong>RED</strong>’s and 3 <strong>BLACK</strong>’s, how do our beliefs change?</p>
+<pre class="sourceCode r"><code class="sourceCode r">(pDataGivenTheta &lt;-<span class="st"> </span>theta^<span class="dv">7</span> *<span class="st"> </span>(<span class="dv">1</span>-theta)^<span class="dv">3</span>)</code></pre>
+<pre><code>## [1] 0.0003538944 0.0009765625 0.0017915904</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(pData &lt;-<span class="st"> </span><span class="kw">sum</span>(pDataGivenTheta *<span class="st"> </span>pThetaGivenData))</code></pre>
+<pre><code>## [1] 0.001064188</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(pThetaGivenData &lt;-<span class="st"> </span>pDataGivenTheta *<span class="st"> </span>pThetaGivenData /<span class="st"> </span>pData)</code></pre>
+<pre><code>## [1] 0.005234895 0.793518167 0.201246939</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(theta, pThetaGivenData, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Posterior&quot;</span>)</code></pre>
+<p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="672" /></p>
+<hr>
+<p>What if we had been more skeptical of the roulette wheel, and believed that the roulette was biased towards <strong>RED</strong>, <strong>FAIR</strong> and biased towards <strong>BLACK</strong> with equal probability. How are our beliefs updated after seeing the same 5 <strong>RED</strong>’s?</p>
+<pre class="sourceCode r"><code class="sourceCode r">theta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>)
+pTheta &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>/<span class="dv">3</span>, <span class="dv">3</span>)
+
+(pDataGivenTheta &lt;-<span class="st"> </span>theta^<span class="dv">5</span>)</code></pre>
+<pre><code>## [1] 0.01024 0.03125 0.07776</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(pData &lt;-<span class="st"> </span><span class="kw">sum</span>(pDataGivenTheta *<span class="st"> </span>pTheta))</code></pre>
+<pre><code>## [1] 0.03975</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(pThetaGivenData &lt;-<span class="st"> </span>pDataGivenTheta *<span class="st"> </span>pTheta /<span class="st"> </span>pData)</code></pre>
+<pre><code>## [1] 0.08587002 0.26205451 0.65207547</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(theta, pThetaGivenData, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Posterior&quot;</span>)</code></pre>
+<p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" width="672" /></p>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
