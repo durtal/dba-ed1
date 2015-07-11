@@ -34,7 +34,7 @@ The answer depends on which of the three theories above is true:
 (pDataGivenTheta <- theta^5)
 
 plot(theta, pDataGivenTheta, type = "h", col = "red", lwd = 5,
-     xlim = c(0, 1), main = "Likelihood")
+     xlim = c(0, 1), ylim = c(0, max(pDataGivenTheta)), main = "Likelihood")
 ```
 
 The result of 5 **RED**'s is more likely if the roulette wheel is biased towards **RED**, than if the roulette wheel is **FAIR** or biased towards **BLACK**.  To update our beliefs in light of this new evidence (5 **RED**'s) we follow Bayes Rule:

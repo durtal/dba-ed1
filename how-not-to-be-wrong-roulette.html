@@ -202,7 +202,7 @@ pTheta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">
 <pre class="sourceCode r"><code class="sourceCode r">(pDataGivenTheta &lt;-<span class="st"> </span>theta^<span class="dv">5</span>)</code></pre>
 <pre><code>## [1] 0.01024 0.03125 0.07776</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(theta, pDataGivenTheta, <span class="dt">type =</span> <span class="st">&quot;h&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">5</span>,
-     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">main =</span> <span class="st">&quot;Likelihood&quot;</span>)</code></pre>
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">max</span>(pDataGivenTheta)), <span class="dt">main =</span> <span class="st">&quot;Likelihood&quot;</span>)</code></pre>
 <p><img src="how-not-to-be-wrong-roulette_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="672" /></p>
 <p>The result of 5 <strong>RED</strong>’s is more likely if the roulette wheel is biased towards <strong>RED</strong>, than if the roulette wheel is <strong>FAIR</strong> or biased towards <strong>BLACK</strong>. To update our beliefs in light of this new evidence (5 <strong>RED</strong>’s) we follow Bayes Rule:</p>
 <pre class="sourceCode r"><code class="sourceCode r">(pData &lt;-<span class="st"> </span><span class="kw">sum</span>( pDataGivenTheta *<span class="st"> </span>pTheta ))</code></pre>
