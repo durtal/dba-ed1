@@ -5,3 +5,25 @@ title: 'Intro'
 Walking my way through [Doing Bayesian Data Analysis](http://www.amazon.co.uk/Doing-Bayesian-Data-Analysis-Tutorial/dp/0123814855/ref=sr_1_2?s=books&ie=UTF8&qid=1432494439&sr=1-2&keywords=doing+bayesian+data+analysis) by John Kruschke (edition 1).
 
 <sub>And learning some Mathjax along the way</sub>
+
+### Chapters
+
+#### Chapter 2 - [The Models We Believe In](chapter2-exercises.html)
+
+Short introduction to R.
+
+#### Chapter 3 - [What Is This Stuff Called Probability?](chapter3-exercises.html)
+
+Simulating coin flips, some cards, some integrals.
+
+#### Chapter 4 - [Bayes Rule](chapter4-exercises.html)
+
+Introduction to Bayes Rule, using traditional example.
+
+#### Chapter 5 - [Inferring a Binomial Proportion via Exact Mathematical Analysis](chapter5-exercises.html)
+
+Look at the Beta distribution, Bayes Rule.
+
+#### Chapter 6 - [Inferring a Binomial Proportion via Grid Approximation](chapter6-exercises.html)
+
+Look at the Beta distribution using grid approximation.
