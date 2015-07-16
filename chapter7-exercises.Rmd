@@ -2,3 +2,334 @@
 title: 'Chapter 7: Exercises'
 ---
 
+```{r echo=FALSE}
+# plot functions
+plotPost = function( paramSampleVec , credMass=0.95 , compVal=NULL ,
+           HDItextPlace=0.7 , ROPE=NULL , yaxt=NULL , ylab=NULL ,
+           xlab=NULL , cex.lab=NULL , cex=NULL , xlim=NULL , main=NULL ,
+           col=NULL , border=NULL , showMode=F , showCurve=F , breaks=NULL , 
+                     ... ) {
+    # Override defaults of hist function, if not specified by user:
+    # (additional arguments "..." are passed to the hist function)
+    if ( is.null(xlab) ) xlab="Parameter"
+    if ( is.null(cex.lab) ) cex.lab=1.5
+    if ( is.null(cex) ) cex=1.4
+    if ( is.null(xlim) ) xlim=range( c( compVal , paramSampleVec ) )
+    if ( is.null(main) ) main=""
+    if ( is.null(yaxt) ) yaxt="n"
+    if ( is.null(ylab) ) ylab=""
+    if ( is.null(col) ) col="skyblue"
+    if ( is.null(border) ) border="white"
+
+    postSummary = matrix( NA , nrow=1 , ncol=11 , 
+                          dimnames=list( c( xlab ) , 
+                                         c("mean","median","mode",
+                                           "hdiMass","hdiLow","hdiHigh",
+                                           "compVal","pcGTcompVal",
+                                           "ROPElow","ROPEhigh","pcInROPE")))              
+    postSummary[,"mean"] = mean(paramSampleVec)
+    postSummary[,"median"] = median(paramSampleVec)
+    mcmcDensity = density(paramSampleVec)
+    postSummary[,"mode"] = mcmcDensity$x[which.max(mcmcDensity$y)]
+
+    source("code-data/HDIofMCMC.R")
+    HDI = HDIofMCMC( paramSampleVec , credMass )
+    postSummary[,"hdiMass"]=credMass
+    postSummary[,"hdiLow"]=HDI[1]
+    postSummary[,"hdiHigh"]=HDI[2]
+
+    # Plot histogram.
+    if ( is.null(breaks) ) {
+    breaks = c( seq( from=min(paramSampleVec) , to=max(paramSampleVec) ,
+                   by=(HDI[2]-HDI[1])/18 ) , max(paramSampleVec) )
+    }
+    if ( !showCurve ) {
+      par(xpd=NA)
+      histinfo = hist( paramSampleVec , xlab=xlab , yaxt=yaxt , ylab=ylab ,
+                       freq=F , border=border , col=col ,
+                       xlim=xlim , main=main , cex=cex , cex.lab=cex.lab ,
+                       breaks=breaks , ... )
+    }
+    if ( showCurve ) {
+      par(xpd=NA)
+      histinfo = hist( paramSampleVec , plot=F )
+      densCurve = density( paramSampleVec , adjust=2 )
+      plot( densCurve$x , densCurve$y , type="l" , lwd=5 , col=col , bty="n" ,
+            xlim=xlim , xlab=xlab , yaxt=yaxt , ylab=ylab ,
+            main=main , cex=cex , cex.lab=cex.lab , ... )
+    }
+    cenTendHt = 0.9*max(histinfo$density)
+    cvHt = 0.7*max(histinfo$density)
+    ROPEtextHt = 0.55*max(histinfo$density)
+    # Display mean or mode:
+    if ( showMode==F ) {
+        meanParam = mean( paramSampleVec )
+        text( meanParam , cenTendHt ,
+              bquote(mean==.(signif(meanParam,3))) , adj=c(.5,0) , cex=cex )
+    } else {
+        dres = density( paramSampleVec )
+        modeParam = dres$x[which.max(dres$y)]
+        text( modeParam , cenTendHt ,
+              bquote(mode==.(signif(modeParam,3))) , adj=c(.5,0) , cex=cex )
+    }
+    # Display the comparison value.
+    if ( !is.null( compVal ) ) {
+      cvCol = "darkgreen"
+      pcgtCompVal = round( 100 * sum( paramSampleVec > compVal )
+                            / length( paramSampleVec )  , 1 )
+       pcltCompVal = 100 - pcgtCompVal
+       lines( c(compVal,compVal) , c(0.96*cvHt,0) ,
+              lty="dotted" , lwd=1 , col=cvCol )
+       text( compVal , cvHt ,
+             bquote( .(pcltCompVal)*"% < " *
+                     .(signif(compVal,3)) * " < "*.(pcgtCompVal)*"%" ) ,
+             adj=c(pcltCompVal/100,0) , cex=0.8*cex , col=cvCol )
+      postSummary[,"compVal"] = compVal
+      postSummary[,"pcGTcompVal"] = ( sum( paramSampleVec > compVal ) 
+                                  / length( paramSampleVec ) )
+    }
+    # Display the ROPE.
+    if ( !is.null( ROPE ) ) {
+      ropeCol = "darkred"
+       pcInROPE = ( sum( paramSampleVec > ROPE[1] & paramSampleVec < ROPE[2] )
+                            / length( paramSampleVec ) )
+       lines( c(ROPE[1],ROPE[1]) , c(0.96*ROPEtextHt,0) , lty="dotted" , lwd=2 ,
+              col=ropeCol )
+       lines( c(ROPE[2],ROPE[2]) , c(0.96*ROPEtextHt,0) , lty="dotted" , lwd=2 ,
+              col=ropeCol)
+       text( mean(ROPE) , ROPEtextHt ,
+             bquote( .(round(100*pcInROPE))*"% in ROPE" ) ,
+             adj=c(.5,0) , cex=1 , col=ropeCol )
+      
+      postSummary[,"ROPElow"]=ROPE[1] 
+      postSummary[,"ROPEhigh"]=ROPE[2] 
+      postSummary[,"pcInROPE"]=pcInROPE
+    }
+    # Display the HDI.
+    lines( HDI , c(0,0) , lwd=4 )
+    text( mean(HDI) , 0 , bquote(.(100*credMass) * "% HDI" ) ,
+          adj=c(.5,-1.7) , cex=cex )
+    text( HDI[1] , 0 , bquote(.(signif(HDI[1],3))) ,
+          adj=c(HDItextPlace,-0.5) , cex=cex )
+    text( HDI[2] , 0 , bquote(.(signif(HDI[2],3))) ,
+          adj=c(1.0-HDItextPlace,-0.5) , cex=cex )
+    par(xpd=F)
+    #
+    return( postSummary )
+}
+```
+```{r echo=FALSE}
+likelihood <- function(theta, data) {
+    z <- sum(data == 1)
+    N <- length(data)
+    pDataGivenTheta <- theta^z * (1-theta)^(N-z)
+    pDataGivenTheta[theta > 1 | theta < 0] <- 0
+    return(pDataGivenTheta)
+}
+
+prior <- function(theta) {
+    prior <- rep(1, length(theta))
+    prior[theta > 1 | theta < 0] <- 0
+    return(prior)
+}
+
+targetRelProb <- function(theta, data) {
+    targetRelProb <- likelihood(theta = theta, data = data) * prior(theta)
+    return(targetRelProb)
+}
+```
+## Inferring a Binomial Proportion via the Metropolis Algorithm
+
+### 7.1
+
+To see what happens in the Metropolis algorithm with different proposal distributions, and to get a sense how the proposal distribution must be _tuned_ to the target distribution.  Use the home-grown Metropolis algorithm in the R script [BernMetropolisTemplate.R](https://github.com/durtal/dba-ed1/blob/master/code-data/BernMetropolisTemplate.R) for this exercise.
+
+> The proposal distribution generates candidate jumps that are normally distributed with mean zero.  Set the standard deviation of the proposal distribution to 0.1 and plot.
+
+> Set the standard deviation of the proposal distribution to 0.001 and plot.
+
+> Set the standard deviation of the proposal distribution to 100.0 and plot.
+
+Example code for the plot below left:
+```{r}
+myData <- c(1,1,1,1,1,1,1,1,1,1,1,0,0,0)    # data
+trajLength <- 10000                         # number of jumps to try
+trajectory <- rep(0, trajLength)            # vector to store results
+trajectory[1] <- 0.5                        # start value
+burnIn <- ceiling(0.1 * trajLength)         # burn in number
+nAccepted1 <- 0                              # track no. of jumps accepted
+nRejected1 <- 0                              # track no. of jumps rejected
+stdev1 <- 0.1                                # standard deviation
+for(t in 1:(trajLength)) {
+    currentPosition <- trajectory[t]
+    # use proposal distribution to generate a proposed jump.
+    proposedJump <- rnorm(1, mean = 0, sd = stdev1)
+    # compute the probability of accepting the proposed jump.
+    probAccept <- min(1, 
+                      targetRelProb(currentPosition + proposedJump, myData) /
+                          targetRelProb(currentPosition, myData))
+    # generate random uniform value from interval [0,1] to decide whether to accept jump
+    if(runif(1) < probAccept) {
+        # accept proposed jump
+        trajectory[t+1] <- currentPosition + proposedJump
+        if(t > burnIn) {
+            # increment accepted counter
+            nAccepted1 <- nAccepted1 + 1
+        }
+    } else {
+        # reject proposed jump
+        trajectory[t+1] <- currentPosition
+        if(t > burnIn) {
+            # increment rejected counter
+            nRejected1 <- nRejected1 + 1
+        }
+    }
+}
+# remove burnIn period
+acceptedTraj <- trajectory[(burnIn+1):length(trajectory)]
+```
+<div class="row">
+<div class="col-sm-4">
+
+```{r echo=FALSE}
+tmp1 <- plotPost(acceptedTraj, xlim = c(0, 1), xlab = bquote(theta))
+# annotate plot
+densMax <- max(density(acceptedTraj)$y)
+meanTraj <- mean(acceptedTraj)
+sdTraj <- sd(acceptedTraj)
+if(meanTraj > .5) {
+  xpos <- 0.0
+  xadj <- 0.0
+} else {
+  xpos <- 1.0
+  xadj <- 1.0
+}
+text(xpos, 0.75*densMax,
+	bquote(	N[pro] * "=" * .(length(acceptedTraj)) * "  " *
+	frac(N[acc],N[pro]) * "=" * .(signif( nAccepted1/length(acceptedTraj) , 3 ))
+	), adj=c(xadj,0))
+```
+
+</div>
+<div class="col-sm-4">
+
+```{r echo=FALSE}
+myData <- c(1,1,1,1,1,1,1,1,1,1,1,0,0,0)    # data
+trajLength <- 10000                         # number of jumps to try
+trajectory <- rep(0, trajLength)            # vector to store results
+trajectory[1] <- 0.5                        # start value
+burnIn <- ceiling(0.1 * trajLength)         # burn in number
+nAccepted2 <- 0                              # track no. of jumps accepted
+nRejected2 <- 0                              # track no. of jumps rejected
+stdev2 <- 0.001                              # standard deviation
+for(t in 1:(trajLength)) {
+    currentPosition <- trajectory[t]
+    # use proposal distribution to generate a proposed jump.
+    proposedJump <- rnorm(1, mean = 0, sd = stdev2)
+    # compute the probability of accepting the proposed jump.
+    probAccept <- min(1, 
+                      targetRelProb(currentPosition + proposedJump, myData) /
+                          targetRelProb(currentPosition, myData))
+    # generate random uniform value from interval [0,1] to decide whether to accept jump
+    if(runif(1) < probAccept) {
+        # accept proposed jump
+        trajectory[t+1] <- currentPosition + proposedJump
+        if(t > burnIn) {
+            # increment accepted counter
+            nAccepted2 <- nAccepted2 + 1
+        }
+    } else {
+        # reject proposed jump
+        trajectory[t+1] <- currentPosition
+        if(t > burnIn) {
+            # increment rejected counter
+            nRejected2 <- nRejected2 + 1
+        }
+    }
+}
+# remove burnIn period
+acceptedTraj <- trajectory[(burnIn+1):length(trajectory)]
+# plot
+tmp2 <- plotPost(acceptedTraj, xlim = c(0, 1), xlab = bquote(theta))
+# annotate plot
+densMax <- max(density(acceptedTraj)$y)
+meanTraj <- mean(acceptedTraj)
+sdTraj <- sd(acceptedTraj)
+if(meanTraj > .5) {
+  xpos <- 0.0
+  xadj <- 0.0
+} else {
+  xpos <- 1.0
+  xadj <- 1.0
+}
+text(xpos, 0.75*densMax,
+	bquote(	N[pro] * "=" * .(length(acceptedTraj)) * "  " *
+	frac(N[acc],N[pro]) * "=" * .(signif( nAccepted2/length(acceptedTraj) , 3 ))
+	), adj=c(xadj,0))
+```
+
+</div>
+<div class="col-sm-4">
+
+```{r echo=FALSE}
+myData <- c(1,1,1,1,1,1,1,1,1,1,1,0,0,0)    # data
+trajLength <- 10000                         # number of jumps to try
+trajectory <- rep(0, trajLength)            # vector to store results
+trajectory[1] <- 0.5                        # start value
+burnIn <- ceiling(0.1 * trajLength)         # burn in number
+nAccepted3 <- 0                              # track no. of jumps accepted
+nRejected3 <- 0                              # track no. of jumps rejected
+stdev3 <- 100.0                              # standard deviation
+for(t in 1:(trajLength)) {
+    currentPosition <- trajectory[t]
+    # use proposal distribution to generate a proposed jump.
+    proposedJump <- rnorm(1, mean = 0, sd = stdev3)
+    # compute the probability of accepting the proposed jump.
+    probAccept <- min(1, 
+                      targetRelProb(currentPosition + proposedJump, myData) /
+                          targetRelProb(currentPosition, myData))
+    # generate random uniform value from interval [0,1] to decide whether to accept jump
+    if(runif(1) < probAccept) {
+        # accept proposed jump
+        trajectory[t+1] <- currentPosition + proposedJump
+        if(t > burnIn) {
+            # increment accepted counter
+            nAccepted3 <- nAccepted3 + 1
+        }
+    } else {
+        # reject proposed jump
+        trajectory[t+1] <- currentPosition
+        if(t > burnIn) {
+            # increment rejected counter
+            nRejected3 <- nRejected3 + 1
+        }
+    }
+}
+# remove burnIn period
+acceptedTraj <- trajectory[(burnIn+1):length(trajectory)]
+# plot
+tmp3 <- plotPost(acceptedTraj, xlim = c(0, 1), xlab = bquote(theta))
+# annotate plot
+densMax <- max(density(acceptedTraj)$y)
+meanTraj <- mean(acceptedTraj)
+sdTraj <- sd(acceptedTraj)
+if(meanTraj > .5) {
+  xpos <- 0.0
+  xadj <- 0.0
+} else {
+  xpos <- 1.0
+  xadj <- 1.0
+}
+text(xpos, 0.75*densMax,
+	bquote(	N[pro] * "=" * .(length(acceptedTraj)) * "  " *
+	frac(N[acc],N[pro]) * "=" * .(signif( nAccepted3/length(acceptedTraj) , 3 ))
+	), adj=c(xadj,0))
+```
+
+</div>
+</div>
+
+> Which proposal distributino gave the mst accurate representation of the posterior?  Which proposal distribution had the most rejected proposals? Which proposal distribution had the most rejected proposals?
+
+The proposal with $SD = 0.1$ gave the most accurate representation of the posterior.  The number of rejected proposals for each were, **`r nRejected1`** when $SD = 0.1$, **`r nRejected2`** when $SD = 0.001$ and **`r nRejected3`** when $SD = 100$.
+
