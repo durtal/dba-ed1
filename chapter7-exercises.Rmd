@@ -333,3 +333,94 @@ text(xpos, 0.75*densMax,
 
 The proposal with $SD = 0.1$ gave the most accurate representation of the posterior.  The number of rejected proposals for each were, **`r nRejected1`** when $SD = 0.1$, **`r nRejected2`** when $SD = 0.001$ and **`r nRejected3`** when $SD = 100$.
 
+
+### 7.2
+
+To understand the influence of the starting point of the random walk, and why the walk doesn't necessarily go back to that region.  Edit the homegrown Metropolis algorithm in [BernMetropolisTemplate.R](https://github.com/durtal/dba-ed1/blob/master/code-data/BernMetropolisTemplate.R) for this exercise.  Set `trajLength = 100` and set `burnIn = ceiling(0.001 * trajLength)`, finally set `trajectory[1] = 0.001`.  Now run the script and save the resulting histogram.
+
+<div class="row">
+<div class="col-sm-6">
+
+```{r echo=FALSE}
+trajLength <- 100 # arbitrary large number
+# Initialize the vector that will store the results:
+trajectory <- rep( 0 , trajLength )
+# Specify where to start the trajectory:
+trajectory[1] <- 0.001 # arbitrary value
+# Specify the burn-in period:
+burnIn <- ceiling(0.01 * trajLength) # arbitrary number, less than trajLength
+# Initialize accepted, rejected counters, just to monitor performance:
+nAccepted <- 0
+nRejected <- 0
+# Specify seed to reproduce same random walk:
+set.seed(47405)
+
+# Now generate the random walk. The 't' index is time or trial in the walk.
+for(t in 1:(trajLength-1) ) {
+    currentPosition <- trajectory[t]
+    # Use the proposal distribution to generate a proposed jump.
+    # The shape and variance of the proposal distribution can be changed
+    # to whatever you think is appropriate for the target distribution.
+    proposedJump <- rnorm(1, mean = 0, sd = 0.1)
+    # Compute the probability of accepting the proposed jump.
+    probAccept <- min(1,
+                      targetRelProb(currentPosition + proposedJump, myData)
+                      / targetRelProb(currentPosition, myData))
+    # Generate a random uniform value from the interval [0,1] to
+    # decide whether or not to accept the proposed jump.
+    if(runif(1) < probAccept) {
+        # accept the proposed jump
+        trajectory[t+1] <- currentPosition + proposedJump
+        # increment the accepted counter, just to monitor performance
+        if(t > burnIn) { nAccepted = nAccepted + 1 }
+    } else {
+        # reject the proposed jump, stay at current position
+        trajectory[t+1] <- currentPosition
+        # increment the rejected counter, just to monitor performance
+        if(t > burnIn) { nRejected = nRejected + 1 }
+    }
+}
+
+# Extract the post-burnIn portion of the trajectory.
+acceptedTraj <- trajectory[(burnIn+1):length(trajectory)]
+# plot
+tmp3 <- plotPost(acceptedTraj, xlim = c(0, 1), xlab = bquote(theta))
+# annotate plot
+densMax <- max(density(acceptedTraj)$y)
+meanTraj <- mean(acceptedTraj)
+sdTraj <- sd(acceptedTraj)
+if(meanTraj > .5) {
+  xpos <- 0.0
+  xadj <- 0.0
+} else {
+  xpos <- 1.0
+  xadj <- 1.0
+}
+text(xpos, 0.75*densMax,
+	bquote(	N[pro] * "=" * .(length(acceptedTraj)) * "  " *
+	frac(N[acc],N[pro]) * "=" * .(signif( nAccepted3/length(acceptedTraj) , 3 ))
+	), adj=c(xadj,0))
+```
+
+</div>
+<div class="col-sm-6">
+
+```{r echo=FALSE}
+plot(acceptedTraj, 1:length(acceptedTraj), type = "o", ylab = "Step", xlab = "Parameter Value")
+```
+
+</div>
+</div>
+> How many jumps are proposed? How many steps are excluded as part of the burn-in portion? At what value does the random walk start?
+
+The histogram above plots the result of the random walk.  There are 100 steps proposed (`trajLength = 100`), burn in portion was 1% (`burnIn = 0.01`) of 100, so just 1 step, and the walk started at 0.001 (`trajectory[1] = 0.001`).
+
+> Why does the histogram above have so many points below 0.5? That is, why does the chain stay below 0.5 as long as it does?
+
+The initial value is 0.001, so the chain starts at the far left.  The proposal distribution has a small SD of 0.1, so jumps are fairly small, meaning progress to values above 0.5 is slow.
+
+> Why does the histogram have so few points below 0.5? That is why does the chain not go back below 0.5?
+
+The chain eventually stays to the right of 0.5 because the posterior probability values to the left of 0.5 is small. Plotting the trajectory instead, above right, of the histogram shows the steps of the random walk.
+
+
