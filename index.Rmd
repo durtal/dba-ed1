@@ -27,3 +27,7 @@ Look at the Beta distribution, Bayes Rule.
 #### Chapter 6 - [Inferring a Binomial Proportion via Grid Approximation](chapter6-exercises.html)
 
 Look at the Beta distribution using grid approximation.
+
+#### Chapter 7 - [Inferring a Binomial Proportion via the Metropolis Algorithm](chapter7-exercises.html)
+
+Look at the Beta distribution using the metropolis algorithm.

@@ -7,7 +7,7 @@ title: 'Chapter 7: Exercises'
 plotPost = function( paramSampleVec , credMass=0.95 , compVal=NULL ,
            HDItextPlace=0.7 , ROPE=NULL , yaxt=NULL , ylab=NULL ,
            xlab=NULL , cex.lab=NULL , cex=NULL , xlim=NULL , main=NULL ,
-           col=NULL , border=NULL , showMode=F , showCurve=F , breaks=NULL , 
+           col=NULL , border=NULL , showMode=F , showCurve=F , breaks=NULL ,
                      ... ) {
     # Override defaults of hist function, if not specified by user:
     # (additional arguments "..." are passed to the hist function)
@@ -21,8 +21,8 @@ plotPost = function( paramSampleVec , credMass=0.95 , compVal=NULL ,
     if ( is.null(col) ) col="skyblue"
     if ( is.null(border) ) border="white"
 
-    postSummary = matrix( NA , nrow=1 , ncol=11 , 
-                          dimnames=list( c( xlab ) , 
+    postSummary = matrix( NA , nrow=1 , ncol=11 ,
+                          dimnames=list( c( xlab ) ,
                                          c("mean","median","mode",
                                            "hdiMass","hdiLow","hdiHigh",
                                            "compVal","pcGTcompVal",
@@ -85,7 +85,7 @@ plotPost = function( paramSampleVec , credMass=0.95 , compVal=NULL ,
                      .(signif(compVal,3)) * " < "*.(pcgtCompVal)*"%" ) ,
              adj=c(pcltCompVal/100,0) , cex=0.8*cex , col=cvCol )
       postSummary[,"compVal"] = compVal
-      postSummary[,"pcGTcompVal"] = ( sum( paramSampleVec > compVal ) 
+      postSummary[,"pcGTcompVal"] = ( sum( paramSampleVec > compVal )
                                   / length( paramSampleVec ) )
     }
     # Display the ROPE.
@@ -100,9 +100,9 @@ plotPost = function( paramSampleVec , credMass=0.95 , compVal=NULL ,
        text( mean(ROPE) , ROPEtextHt ,
              bquote( .(round(100*pcInROPE))*"% in ROPE" ) ,
              adj=c(.5,0) , cex=1 , col=ropeCol )
-      
-      postSummary[,"ROPElow"]=ROPE[1] 
-      postSummary[,"ROPEhigh"]=ROPE[2] 
+
+      postSummary[,"ROPElow"]=ROPE[1]
+      postSummary[,"ROPEhigh"]=ROPE[2]
       postSummary[,"pcInROPE"]=pcInROPE
     }
     # Display the HDI.
@@ -165,7 +165,7 @@ for(t in 1:(trajLength)) {
     # use proposal distribution to generate a proposed jump.
     proposedJump <- rnorm(1, mean = 0, sd = stdev1)
     # compute the probability of accepting the proposed jump.
-    probAccept <- min(1, 
+    probAccept <- min(1,
                       targetRelProb(currentPosition + proposedJump, myData) /
                           targetRelProb(currentPosition, myData))
     # generate random uniform value from interval [0,1] to decide whether to accept jump
@@ -227,7 +227,7 @@ for(t in 1:(trajLength)) {
     # use proposal distribution to generate a proposed jump.
     proposedJump <- rnorm(1, mean = 0, sd = stdev2)
     # compute the probability of accepting the proposed jump.
-    probAccept <- min(1, 
+    probAccept <- min(1,
                       targetRelProb(currentPosition + proposedJump, myData) /
                           targetRelProb(currentPosition, myData))
     # generate random uniform value from interval [0,1] to decide whether to accept jump
@@ -285,7 +285,7 @@ for(t in 1:(trajLength)) {
     # use proposal distribution to generate a proposed jump.
     proposedJump <- rnorm(1, mean = 0, sd = stdev3)
     # compute the probability of accepting the proposed jump.
-    probAccept <- min(1, 
+    probAccept <- min(1,
                       targetRelProb(currentPosition + proposedJump, myData) /
                           targetRelProb(currentPosition, myData))
     # generate random uniform value from interval [0,1] to decide whether to accept jump
@@ -329,7 +329,7 @@ text(xpos, 0.75*densMax,
 </div>
 </div>
 
-> Which proposal distributino gave the mst accurate representation of the posterior?  Which proposal distribution had the most rejected proposals? Which proposal distribution had the most rejected proposals?
+> Which proposal distribution gave the most accurate representation of the posterior?  Which proposal distribution had the most rejected proposals? Which proposal distribution had the most rejected proposals?
 
 The proposal with $SD = 0.1$ gave the most accurate representation of the posterior.  The number of rejected proposals for each were, **`r nRejected1`** when $SD = 0.1$, **`r nRejected2`** when $SD = 0.001$ and **`r nRejected3`** when $SD = 100$.
 
@@ -422,5 +422,3 @@ The initial value is 0.001, so the chain starts at the far left.  The proposal d
 > Why does the histogram have so few points below 0.5? That is why does the chain not go back below 0.5?
 
 The chain eventually stays to the right of 0.5 because the posterior probability values to the left of 0.5 is small. Plotting the trajectory instead, above right, of the histogram shows the steps of the random walk.
-
-
