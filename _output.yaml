@@ -5,6 +5,7 @@ html_document:
     mathjax: "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
     toc_depth: 2
     lib_dir: libs
+    css: styles.css
     includes:
         in_header: include/in_header.html
         before_body: include/before_body.html
