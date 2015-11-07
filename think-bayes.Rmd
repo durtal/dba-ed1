@@ -1,0 +1,25 @@
+---
+title: "think bayes"
+---
+
+Another book I've been reading snippets from is Allen Downey's [Think Bayes](http://greenteapress.com/thinkbayes/) which uses Python.  I haven't got that far into the book, but wanted to document one of the earlier examples.
+
+### M&Ms
+
+In 1995, blue M&Ms were introduced.  Before then, the colour mix in a bag was **30%** brown, **20%** yellow, **20%** red, **10%** green, **10%** orange, **10%** tan.  After the mix was **24%** blue, **20%** green, **16%** orange, **14%** yellow, **13%** red, **13%** brown.
+
+Suppose someone has two bags, one from 1996, one from 1994 (probably past it's sell by date).  She won't say which bag is which, but she gives me one M&M from each bag.  One is yellow, and one is green.
+
+> What is the probability that the yellow one came from 1994 bag?
+
+The bag the yellow M&M came from can be called _Bag 1_, the other called _Bag 2_.
+
+```{r}
+(prior <- c("bag1" = 0.5, "bag2" = 0.5))
+
+(likelihood <- c(0.2 * 0.20, 0.10 * 0.14))
+
+(pData <- sum(prior * likelihood))
+
+(posterior <- (prior * likelihood) / pData)
+```

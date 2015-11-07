@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>think bayes</title>
+
+<script src="libs/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.1/css/united.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.1/shim/respond.min.js"></script>
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    @media (max-width: 979px) {
+        body {
+            padding-top: 0;
+        }
+    }
+
+    @media (min-width: 980px) {
+        .section h2 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+        .section h3 {
+            padding-top: 52px;
+            margin-top: -52px;
+        }
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    #disqus_thread {
+        margin-top: 45px;
+    }
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+<h2>Doing Bayesian Data Analysis</h2>
+<h5>Working through the book <a href="http://www.amazon.co.uk/Doing-Bayesian-Data-Analysis-Tutorial/dp/0123814855/ref=sr_1_2?s=books&ie=UTF8&qid=1432494439&sr=1-2&keywords=doing+bayesian+data+analysis">Doing Bayesian Data Analysis</a> (ed.1) by John Kruschke, inc. examples and exercises.</h5>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#dba-nav">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://durtal.github.io" class="navbar-brand">durtal.github.io</a>
+        </div>
+        <div class="collapse navbar-collapse" id="dba-nav">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="index.html">DBDA Home</a>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        Exercises <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="chapter2-exercises.html">Chapter 2</a>
+                        </li>
+                        <li>
+                            <a href="chapter3-exercises.html">Chapter 3</a>
+                        </li>
+                        <li>
+                            <a href="chapter4-exercises.html">Chapter 4</a>
+                        </li>
+                        <li>
+                            <a href="chapter5-exercises.html">Chapter 5</a>
+                        </li>
+                        <li>
+                            <a href="chapter6-exercises.html">Chapter 6</a>
+                        </li>
+                        <li>
+                            <a href="chapter7-exercises.html">Chapter 7</a>
+                        </li>
+                        <li>
+                            <a href="chapter8-exercises.html">Chapter 8</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        Other <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="how-not-to-be-wrong-roulette.html">How Not To Be Wrong</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="header">
+<h1 class="title">think bayes</h1>
+</div>
+
+
+<p>Another book I’ve been reading snippets from is Allen Downey’s <a href="http://greenteapress.com/thinkbayes/">Think Bayes</a> which uses Python. I haven’t got that far into the book, but wanted to document one of the earlier examples.</p>
+<div id="mms" class="section level3">
+<h3>M&amp;Ms</h3>
+<p>In 1995, blue M&amp;Ms were introduced. Before then, the colour mix in a bag was <strong>30%</strong> brown, <strong>20%</strong> yellow, <strong>20%</strong> red, <strong>10%</strong> green, <strong>10%</strong> orange, <strong>10%</strong> tan. After the mix was <strong>24%</strong> blue, <strong>20%</strong> green, <strong>16%</strong> orange, <strong>14%</strong> yellow, <strong>13%</strong> red, <strong>13%</strong> brown.</p>
+<p>Suppose someone has two bags, one from 1996, one from 1994 (probably past it’s sell by date). She won’t say which bag is which, but she gives me one M&amp;M from each bag. One is yellow, and one is green.</p>
+<blockquote>
+<p>What is the probability that the yellow one came from 1994 bag?</p>
+</blockquote>
+<p>The bag the yellow M&amp;M came from can be called <em>Bag 1</em>, the other called <em>Bag 2</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">(prior &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;bag1&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;bag2&quot;</span> =<span class="st"> </span><span class="fl">0.5</span>))</code></pre>
+<pre><code>## bag1 bag2 
+##  0.5  0.5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(likelihood &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.2</span> *<span class="st"> </span><span class="fl">0.20</span>, <span class="fl">0.10</span> *<span class="st"> </span><span class="fl">0.14</span>))</code></pre>
+<pre><code>## [1] 0.040 0.014</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(pData &lt;-<span class="st"> </span><span class="kw">sum</span>(prior *<span class="st"> </span>likelihood))</code></pre>
+<pre><code>## [1] 0.027</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(posterior &lt;-<span class="st"> </span>(prior *<span class="st"> </span>likelihood) /<span class="st"> </span>pData)</code></pre>
+<pre><code>##      bag1      bag2 
+## 0.7407407 0.2592593</code></pre>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
